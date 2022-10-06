@@ -1,11 +1,11 @@
 <template>
-  <!-- TutorialDataService methods:
+  <!-- DataService methods:
         get()
         update()
         delete()
  -->
-  <div v-if="currentTutorial" class="edit-form">
-    <h4>Tutorial</h4>
+  <div v-if="currentReferral" class="edit-form">
+    <h4>REFERRAL</h4>
     <form>
       <div class="form-group">
         <label for="title">Title</label>
@@ -13,7 +13,7 @@
           type="text"
           class="form-control"
           id="title"
-          v-model="currentTutorial.title"
+          v-model="currentReferral.title"
         />
       </div>
       <div class="form-group">
@@ -22,19 +22,19 @@
           type="text"
           class="form-control"
           id="description"
-          v-model="currentTutorial.description"
+          v-model="currentReferral.description"
         />
       </div>
 
       <div class="form-group">
         <label><strong>Status:</strong></label>
-        {{ currentTutorial.published ? "Published" : "Pending" }}
+        {{ currentReferral.published ? "Published" : "Pending" }}
       </div>
     </form>
 
     <button
       class="badge badge-primary mr-2"
-      v-if="currentTutorial.published"
+      v-if="currentReferral.published"
       @click="updatePublished(false)"
     >
       UnPublish
@@ -47,11 +47,11 @@
       Publish
     </button>
 
-    <button class="badge badge-danger mr-2" @click="deleteTutorial">
+    <button class="badge badge-danger mr-2" @click="deleteReferral">
       Delete
     </button>
 
-    <button type="submit" class="badge badge-success" @click="updateTutorial">
+    <button type="submit" class="badge badge-success" @click="updateReferral">
       Update
     </button>
     <p>{{ message }}</p>
@@ -64,22 +64,22 @@
 </template>
 
 <script>
-import TutorialDataService from "../services/DataService";
+import DataService from "../services/DataService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "tutorial",
   data() {
     return {
-      currentTutorial: null,
+      currentReferral: null,
       message: "",
     };
   },
   methods: {
-    getTutorial(id) {
-      TutorialDataService.get(id)
+    getReferral(id) {
+      DataService.get(id)
         .then((response) => {
-          this.currentTutorial = response.data;
+          this.currentReferral = response.data;
           console.log(response.data);
         })
         .catch((e) => {
@@ -89,16 +89,16 @@ export default {
 
     updatePublished(status) {
       var data = {
-        id: this.currentTutorial.id,
-        title: this.currentTutorial.title,
-        description: this.currentTutorial.description,
+        id: this.currentReferral.id,
+        title: this.currentReferral.title,
+        description: this.currentReferral.description,
         published: status,
       };
 
-      TutorialDataService.update(this.currentTutorial.id, data)
+      DataService.update(this.currentReferral.id, data)
         .then((response) => {
           console.log(response.data);
-          this.currentTutorial.published = status;
+          this.currentReferral.published = status;
           this.message = "The status was updated successfully!";
         })
         .catch((e) => {
@@ -106,19 +106,19 @@ export default {
         });
     },
 
-    updateTutorial() {
-      TutorialDataService.update(this.currentTutorial.id, this.currentTutorial)
+    updateReferral() {
+      DataService.update(this.currentReferral.id, this.currentReferral)
         .then((response) => {
           console.log(response.data);
-          this.message = "The tutorial was updated successfully!";
+          this.message = "The referral was updated successfully!";
         })
         .catch((e) => {
           console.log(e);
         });
     },
 
-    deleteTutorial() {
-      TutorialDataService.delete(this.currentTutorial.id)
+    deleteReferral() {
+      DataService.delete(this.currentReferral.id)
         .then((response) => {
           console.log(response.data);
           this.$router.push({ name: "tutorials" });
@@ -130,7 +130,7 @@ export default {
   },
   mounted() {
     this.message = "";
-    this.getTutorial(this.$route.params.id);
+    this.getReferral(this.$route.params.id);
   },
 };
 </script>
