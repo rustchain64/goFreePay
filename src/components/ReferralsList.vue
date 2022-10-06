@@ -1,5 +1,5 @@
 <template>
-  <!-- TutorialDataService methods:
+  <!-- DataService methods:
        getAll()
        deleteAll()
        findByTitle()
@@ -30,35 +30,35 @@
         <li
           class="list-group-item"
           :class="{ active: index == currentIndex }"
-          v-for="(tutorial, index) in tutorials"
+          v-for="(referral, index) in referrals"
           :key="index"
-          @click="setActiveTutorial(tutorial, index)"
+          @click="setActiveReferral(referrals, index)"
         >
-          {{ tutorial.title }}
+          {{ referrals.title }}
         </li>
       </ul>
 
-      <button class="m-3 btn btn-sm btn-danger" @click="removeAllTutorials">
+      <button class="m-3 btn btn-sm btn-danger" @click="removeAllReferrals">
         Remove All
       </button>
     </div>
     <div class="col-md-6">
-      <div v-if="currentTutorial">
-        <h4>Tutorial</h4>
+      <div v-if="currentReferral">
+        <h4>Referral</h4>
         <div>
-          <label><strong>Title:</strong></label> {{ currentTutorial.title }}
+          <label><strong>Title:</strong></label> {{ currentReferral.title }}
         </div>
         <div>
           <label><strong>Description:</strong></label>
-          {{ currentTutorial.description }}
+          {{ currentReferral.description }}
         </div>
         <div>
           <label><strong>Status:</strong></label>
-          {{ currentTutorial.published ? "Published" : "Pending" }}
+          {{ currentReferral.published ? "Published" : "Pending" }}
         </div>
 
         <router-link
-          :to="'/tutorials/' + currentTutorial.id"
+          :to="'/referrals/' + currentReferral.id"
           class="badge badge-warning"
           >Edit</router-link
         >
@@ -75,20 +75,20 @@
 import DataService from "../services/DataService";
 
 export default {
-  name: "tutorials-list",
+  name: "referrals-list",
   data() {
     return {
-      tutorials: [],
-      currentTutorial: null,
+      referrals: [],
+      currentReferral: null,
       currentIndex: -1,
       title: "",
     };
   },
   methods: {
-    retrieveTutorials() {
+    retrieveReferrals() {
       DataService.getAll()
         .then((response) => {
-          this.tutorials = response.data;
+          this.referrals = response.data;
           console.log(response.data);
         })
         .catch((e) => {
@@ -97,17 +97,17 @@ export default {
     },
 
     refreshList() {
-      this.retrieveTutorials();
-      this.currentTutorial = null;
+      this.retrieveReferrals();
+      this.currentReferral = null;
       this.currentIndex = -1;
     },
 
-    setActiveTutorial(tutorial, index) {
-      this.currentTutorial = tutorial;
+    setActiveReferral(tutorial, index) {
+      this.currentReferral = tutorial;
       this.currentIndex = tutorial ? index : -1;
     },
 
-    removeAllTutorials() {
+    removeAllReferrals() {
       DataService.deleteAll()
         .then((response) => {
           console.log(response.data);
@@ -120,8 +120,8 @@ export default {
     searchTitle() {
       DataService.findByTitle(this.title)
         .then((response) => {
-          this.tutorials = response.data;
-          this.setActiveTutorial(null);
+          this.referrals = response.data;
+          this.setActiveReferral(null);
           console.log(response.data);
         })
         .catch((e) => {
@@ -130,7 +130,7 @@ export default {
     },
   },
   mounted() {
-    this.retrieveTutorials();
+    this.retrieveReferrals();
   },
 };
 </script>
