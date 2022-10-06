@@ -8,7 +8,7 @@
           class="form-control"
           id="title"
           required
-          v-model="tutorial.title"
+          v-model="referral.title"
           name="title"
         />
       </div>
@@ -19,17 +19,17 @@
           class="form-control"
           id="description"
           required
-          v-model="tutorial.description"
+          v-model="referral.description"
           name="description"
         />
       </div>
 
-      <button @click="saveTutorial" class="btn btn-success">Submit</button>
+      <button @click="saveReferral" class="btn btn-success">Submit</button>
     </div>
 
     <div v-else>
       <h4>You submitted successfully!</h4>
-      <button class="btn btn-success" @click="newTutorial">Add</button>
+      <button class="btn btn-success" @click="newReferral">Add</button>
     </div>
   </div>
 </template>
@@ -38,10 +38,10 @@
 import DataService from "../services/DataService";
 
 export default {
-  name: "add-tutorial",
+  name: "add-referral",
   data() {
     return {
-      tutorial: {
+      referral: {
         id: null,
         title: "",
         description: "",
@@ -51,15 +51,15 @@ export default {
     };
   },
   methods: {
-    saveTutorial() {
+    saveReferral() {
       var data = {
-        title: this.tutorial.title,
-        description: this.tutorial.description,
+        title: this.referral.title,
+        description: this.referral.description,
       };
 
       DataService.create(data)
         .then((response) => {
-          this.tutorial.id = response.data.id;
+          this.referral.id = response.data.id;
           console.log(response.data);
           this.submitted = true;
         })
@@ -68,9 +68,9 @@ export default {
         });
     },
 
-    newTutorial() {
+    newReferral() {
       this.submitted = false;
-      this.tutorial = {};
+      this.referral = {};
     },
   },
 };
