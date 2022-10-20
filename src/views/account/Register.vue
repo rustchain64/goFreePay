@@ -66,3 +66,24 @@ async function onSubmit(values) {
         </div>
     </div>
 </template>
+
+<script>    
+export default {
+  name: "add-user",
+  data: () => ({
+    picked: ''
+  }),
+  methods: {
+		setPicked(event) {
+        this.picked = event.target.value;
+    	console.log(event.target.value)
+    }
+  },
+ 
+};
+</script>
+
+<style scoped>.persona_label {
+    margin-right: 10%;
+  }
+</style>
