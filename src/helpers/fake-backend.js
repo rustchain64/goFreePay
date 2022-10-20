@@ -47,14 +47,21 @@ function fakeBackend() {
                 });
             }
 
+            // REGISTER ONE USER
             function register() {
                 const user = body();
+                console.log("USER BODY is picked? : ", user);
+                console.log("USER BODY is persona? : ", user.persona);
 
                 if (users.find(x => x.username === user.username)) {
                     return error('Username "' + user.username + '" is already taken')
                 }
 
                 user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+
+                // set the user persona to display on the user list
+                user.picked = user.persona;
+
                 users.push(user);
                 localStorage.setItem(usersKey, JSON.stringify(users));
                 return ok();
@@ -67,7 +74,6 @@ function fakeBackend() {
 
             function getUserById() {
                 if (!isAuthenticated()) return unauthorized();
-
                 const user = users.find(x => x.id === idFromUrl());
                 return ok(basicDetails(user));
             }
@@ -118,8 +124,8 @@ function fakeBackend() {
             }
 
             function basicDetails(user) {
-                const { id, username, firstName, lastName } = user;
-                return { id, username, firstName, lastName };
+                const { id, username, firstName, lastName, picked } = user;
+                return { id, username, firstName, lastName, picked };
             }
 
             function isAuthenticated() {
