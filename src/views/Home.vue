@@ -1,16 +1,112 @@
 <script setup>
-import { storeToRefs } from "pinia";
+import { storeToRefs } from 'pinia';
 
-import { useAuthStore } from "@/stores";
+import { useAuthStore } from '@/stores';
+// import TheWelcome from "../components/TheWelcome.vue";
+import ReferralsList from "./referrals/ListView.vue";
+import AddReferralView from './referrals/AddReferralView.vue';
+import { router } from '@/router';
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
+
+// const alertStore = useAlertStore();
+// const { alert } = storeToRefs(alertStore);
 </script>
 
 <template>
-  <div v-if="user">
-    <h1>Hi {{ user.firstName }}!</h1>
-    <p>You're logged in with Vue 3 + Pinia & JWT!!</p>
-    <p><router-link to="/users">Manage Users</router-link></p>
-  </div>
+        <!-- <button @click="registerMerchant" class="btn btn-success">Register Merchant</button> -->
+
+    <div v-if="user">
+      <!-- <div>get user.personal : {{user}}</div> -->
+      <div>
+        <span class="welcome-text">{{user.picked}} : {{user.firstName}} </span>
+        <span v-if="user.picked == 'Admin'"><button @click="merchantDashboard" class="btn btn-success" id="dash-button">Admin Dashboard</button></span>
+        <span v-if="user.picked == 'Merchant'"><button @click="merchantDashboard" class="btn btn-success" id="dash-button">Merchant Dashboard</button></span>
+        <span v-if="user.picked == 'Agent'"><button @click="agentDashboard" class="btn btn-success" id="dash-button">Agent Dashboard</button></span>
+      </div>
+      <!-- user logs in as Merchant Account -->
+      <ReferralsList />
+      <div v-if="user.picked == 'Merchant'">        
+        <AddReferralView />        
+      </div> 
+      <div v-if="user.picked == 'Agent'">
+        <div class="agent_list"><ReferralsList /></div>
+        <!-- <div class="agent_register"><RegisterMerchant /></div> -->
+      </div>
+      <div v-if="user.picked == 'Admin'">
+        <div class="agent_list"><ReferralsList /></div>
+        <!-- <div class="agent_register"><RegisterMerchant /></div> -->
+      </div>  
+    </div>
+    <!-- <main>    
+        <TheWelcome />
+    </main> -->
+   
 </template>
+
+<script>
+   // import DataService from "../services/DataService";
+    
+export default {
+  name: "add-tutorial",
+  data() {
+    return {
+      agent: false,
+      tutorial: {
+        id: null,
+        title: "",
+        description: "",
+        published: false,
+      },
+      submitted: false,
+    };
+  },
+  methods: {
+    registerMerchant() {
+      console.log("register Merchant");
+     // router.push('/register');
+    },
+
+    merchantDashboard() {
+      console.log("dashboard Merchant");
+      router.push(this.returnUrl || '/merchantDashboard');
+    },
+    agentDashboard() {
+      console.log("dashboard Agent");
+      router.push(this.returnUrl || '/agentDashboard');
+    },
+  },
+};
+</script>
+
+<style scoped>
+  .welcome-text {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: rgb(27, 164, 6);
+    margin-left: 25px;
+  }
+  #welcome-person {
+    width: 30%;
+    float: left;
+    
+  }
+  #dash-button {
+    color:black;
+    width: 25%;
+    float: right;
+    margin-right: 25px;
+    background: url(@/assets/dash_button.png) 3px 5px no-repeat;    
+  }
+
+  .agent_list {
+    float:right;
+  }
+
+  .agent_register {
+    float: left;
+  }
+</style>
