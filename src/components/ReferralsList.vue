@@ -1,73 +1,97 @@
 <template>
-  <!-- DataService methods:
+  <!-- TutorialDataService methods:
        getAll()
        deleteAll()
        findByTitle()
   -->
-  <div class="list row">
-    <div class="col-md-8">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search by title"
-          v-model="title"
-        />
-        <div class="input-group-append">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="searchTitle"
+  <div class="card m-3">
+  <h4 class="card-header">Manage Referrals</h4>
+  <div class="card-body">
+    <div class="list row">
+      <div class="col-md-8">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by title"
+            v-model="title"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="searchTitle"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h4>Referrals List</h4>
+        <ul class="list-group">
+          <li
+            class="list-group-item"
+            :class="{ active: index == currentIndex }"
+            v-for="(tutorial, index) in tutorials"
+            :key="index"
+            @click="setActiveReferral(tutorial, index)"
           >
-            Search
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <h4>Referral List</h4>
-      <ul class="list-group">
-        <li
-          class="list-group-item"
-          :class="{ active: index == currentIndex }"
-          v-for="(referral, index) in referrals"
-          :key="index"
-          @click="setActiveReferral(referrals, index)"
-        >
-          {{ referrals.title }}
-        </li>
-      </ul>
+            {{ tutorial.referralsName }}
+          </li>
+        </ul>
 
-      <button class="m-3 btn btn-sm btn-danger" @click="removeAllReferrals">
-        Remove All
-      </button>
-    </div>
-    <div class="col-md-6">
-      <div v-if="currentReferral">
-        <h4>Referral</h4>
-        <div>
-          <label><strong>Title:</strong></label> {{ currentReferral.title }}
-        </div>
-        <div>
-          <label><strong>Description:</strong></label>
-          {{ currentReferral.description }}
-        </div>
-        <div>
-          <label><strong>Status:</strong></label>
-          {{ currentReferral.published ? "Published" : "Pending" }}
+        <button class="m-3 btn btn-sm btn-danger" @click="removeAllTutorials">
+          Remove All
+        </button>
+      </div>
+      <div class="col-md-6">
+        <div v-if="currentTutorial">
+          <h4>Referral ???</h4>
+          <div>
+            <label><strong>Merchant Name:</strong></label>
+            {{ currentTutorial.yourName }}
+          </div>
+          <div>
+            <label><strong>Referral Name:</strong></label>
+            {{ currentTutorial.referralsName }}
+          </div>
+          <div>
+            <label><strong>Phone:</strong></label>
+            {{ currentTutorial.phone }}
+          </div>
+          <div>
+            <label><strong>Email:</strong></label>
+            {{ currentTutorial.email }}
+          </div>
+          <div>
+            <label><strong>Title or Code:</strong></label>
+            {{ currentTutorial.title }}
+          </div>
+          <div>
+            <label><strong>Notes:</strong></label>
+            {{ currentTutorial.description }}
+          </div>
+          <div>
+            <label><strong>Status:</strong></label>
+            {{ currentTutorial.published ? "Published" : "Pending" }}
+          </div>
+          
+          <router-link
+            :to="{ name: 'Referral', params: { id: currentTutorial.id }}"
+            class="badge badge-primary"
+            >
+            Edit
+            </router-link>
         </div>
 
-        <router-link
-          :to="'/referrals/' + currentReferral.id"
-          class="badge badge-warning"
-          >Edit</router-link
-        >
-      </div>
-      <div v-else>
-        <br />
-        <p>Please click on a Referral...</p>
+        <div v-else>
+          <br />
+          <p>Please click on a Referral...</p>
+        </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -75,20 +99,20 @@
 import DataService from "../services/DataService";
 
 export default {
-  name: "referrals-list",
+  name: "tutorials-list",
   data() {
     return {
-      referrals: [],
-      currentReferral: null,
+      tutorials: [],
+      currentTutorial: null,
       currentIndex: -1,
       title: "",
     };
   },
   methods: {
-    retrieveReferrals() {
+    retrieveTutorials() {
       DataService.getAll()
         .then((response) => {
-          this.referrals = response.data;
+          this.tutorials = response.data;
           console.log(response.data);
         })
         .catch((e) => {
@@ -97,17 +121,17 @@ export default {
     },
 
     refreshList() {
-      this.retrieveReferrals();
-      this.currentReferral = null;
+      this.retrieveTutorials();
+      this.currentTutorial = null;
       this.currentIndex = -1;
     },
 
     setActiveReferral(tutorial, index) {
-      this.currentReferral = tutorial;
+      this.currentTutorial = tutorial;
       this.currentIndex = tutorial ? index : -1;
     },
 
-    removeAllReferrals() {
+    removeAllTutorials() {
       DataService.deleteAll()
         .then((response) => {
           console.log(response.data);
@@ -120,9 +144,9 @@ export default {
     searchTitle() {
       DataService.findByTitle(this.title)
         .then((response) => {
-          this.referrals = response.data;
+          this.tutorials = response.data;
           this.setActiveReferral(null);
-          console.log(response.data);
+          console.log("SEARCH TITLE DATA ",response.data);
         })
         .catch((e) => {
           console.log(e);
@@ -130,7 +154,7 @@ export default {
     },
   },
   mounted() {
-    this.retrieveReferrals();
+    this.retrieveTutorials();
   },
 };
 </script>

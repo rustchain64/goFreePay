@@ -1,19 +1,59 @@
 <template>
-  <!-- DataService methods:
+  <!-- TutorialDataService methods:
         get()
         update()
         delete()
+        <div v-if="currentTutorial" class="edit-form">
  -->
-  <div v-if="currentReferral" class="edit-form">
-    <h4>REFERRAL</h4>
+  <div  class="card m-3">
+    <h4 class="card-header">Update and Edit Referral</h4>
+    <div class="card-body">
+      <div class="list row">
+        <div class="col-md-8">
     <form>
+      <div class="form-group">
+        <label for="title">Your Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          v-model="currentTutorial.yourName"
+        />
+      </div>
+      <div class="form-group">
+        <label for="title">Referrals Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          v-model="currentTutorial.referralsName"
+        />
+      </div>
+      <div class="form-group">
+        <label for="title">Phone</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          v-model="currentTutorial.phone"
+        />
+      </div>
+      <div class="form-group">
+        <label for="title">Email</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          v-model="currentTutorial.email"
+        />
+      </div>
       <div class="form-group">
         <label for="title">Title</label>
         <input
           type="text"
           class="form-control"
           id="title"
-          v-model="currentReferral.title"
+          v-model="currentTutorial.title"
         />
       </div>
       <div class="form-group">
@@ -22,19 +62,23 @@
           type="text"
           class="form-control"
           id="description"
-          v-model="currentReferral.description"
+          v-model="currentTutorial.description"
         />
       </div>
 
       <div class="form-group">
         <label><strong>Status:</strong></label>
-        {{ currentReferral.published ? "Published" : "Pending" }}
+        {{ currentTutorial.published ? "Published" : "Pending" }}
       </div>
     </form>
+  </div>
+  </div>
+  
 
-    <button
+  
+    <!-- <button
       class="badge badge-primary mr-2"
-      v-if="currentReferral.published"
+      v-if="currentTutorial.published"
       @click="updatePublished(false)"
     >
       UnPublish
@@ -45,41 +89,52 @@
       @click="updatePublished(true)"
     >
       Publish
+    </button> -->
+
+    <button
+      class="badge badge-primary mr-2"
+      v-if="currentTutorial.published"
+      @click="updatePublished(false)"
+    >
+      Is Active
+    </button>
+    <button
+      v-else
+      class="badge badge-primary mr-2"
+      @click="updatePublished(true)"
+    >
+      Not Active
     </button>
 
-    <button class="badge badge-danger mr-2" @click="deleteReferral">
+    <button class="badge badge-danger mr-2" @click="deleteTutorial">
       Delete
     </button>
 
-    <button type="submit" class="badge badge-success" @click="updateReferral">
+    <button type="submit" class="badge badge-success" @click="updateTutorial">
       Update
     </button>
     <p>{{ message }}</p>
   </div>
-
-  <div v-else>
-    <br />
-    <p>Please click on a Referral...</p>
-  </div>
+</div>
 </template>
 
 <script>
-import DataService from "../services/DataService";
+import TutorialDataService from "../services/DataService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "tutorial",
+  name: "referral",
   data() {
     return {
-      currentReferral: null,
+      currentTutorial: "",
       message: "",
     };
   },
   methods: {
-    getReferral(id) {
-      DataService.get(id)
+    getTutorial(id) {
+      TutorialDataService.get(id)
         .then((response) => {
-          this.currentReferral = response.data;
+          this.currentTutorial = response.data;
           console.log(response.data);
         })
         .catch((e) => {
@@ -89,16 +144,16 @@ export default {
 
     updatePublished(status) {
       var data = {
-        id: this.currentReferral.id,
-        title: this.currentReferral.title,
-        description: this.currentReferral.description,
+        id: this.currentTutorial.id,
+        title: this.currentTutorial.title,
+        description: this.currentTutorial.description,
         published: status,
       };
 
-      DataService.update(this.currentReferral.id, data)
+      TutorialDataService.update(this.currentTutorial.id, data)
         .then((response) => {
           console.log(response.data);
-          this.currentReferral.published = status;
+          this.currentTutorial.published = status;
           this.message = "The status was updated successfully!";
         })
         .catch((e) => {
@@ -106,19 +161,19 @@ export default {
         });
     },
 
-    updateReferral() {
-      DataService.update(this.currentReferral.id, this.currentReferral)
+    updateTutorial() {
+      TutorialDataService.update(this.currentTutorial.id, this.currentTutorial)
         .then((response) => {
           console.log(response.data);
-          this.message = "The referral was updated successfully!";
+          this.message = "The tutorial was updated successfully!";
         })
         .catch((e) => {
           console.log(e);
         });
     },
 
-    deleteReferral() {
-      DataService.delete(this.currentReferral.id)
+    deleteTutorial() {
+      TutorialDataService.delete(this.currentTutorial.id)
         .then((response) => {
           console.log(response.data);
           this.$router.push({ name: "tutorials" });
@@ -130,7 +185,7 @@ export default {
   },
   mounted() {
     this.message = "";
-    this.getReferral(this.$route.params.id);
+    this.getTutorial(this.$route.params.id);
   },
 };
 </script>
