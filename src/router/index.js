@@ -24,18 +24,18 @@ export const router = createRouter({
     ]
 });
 
-// router.beforeEach(async (to) => {
-//     // clear alert on route change
-//     const alertStore = useAlertStore();
-//     alertStore.clear();
+router.beforeEach(async (to) => {
+    // clear alert on route change
+    const alertStore = useAlertStore();
+    alertStore.clear();
 
-//     // redirect to login page if not logged in and trying to access a restricted page 
-//     const publicPages = ['/account/login', '/account/register'];
-//     const authRequired = !publicPages.includes(to.path);
-//     const authStore = useAuthStore();
+    // redirect to login page if not logged in and trying to access a restricted page 
+    const publicPages = ['/account/login', '/account/register'];
+    const authRequired = !publicPages.includes(to.path);
+    const authStore = useAuthStore();
 
-//     if (authRequired && !authStore.user) {
-//         authStore.returnUrl = to.fullPath;
-//         return '/account/login';
-//     }
-// });
+    if (authRequired && !authStore.user) {
+        authStore.returnUrl = to.fullPath;
+        return '/account/login';
+    }
+});

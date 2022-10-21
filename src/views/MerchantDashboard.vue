@@ -2,7 +2,6 @@
 import { storeToRefs } from 'pinia';
 
 import { useAuthStore } from '@/stores';
-import TheWelcome from "../components/TheWelcome.vue";
 import PieChart from "../components/charts/PieChart";
 import LineChart from "../components/charts/LineChart.vue";
 
