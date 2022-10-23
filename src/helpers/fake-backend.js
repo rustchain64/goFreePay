@@ -124,8 +124,8 @@ function fakeBackend() {
             }
 
             function basicDetails(user) {
-                const { id, username, firstName, lastName, picked } = user;
-                return { id, username, firstName, lastName, picked };
+                const { id, agentCode, username, firstName, lastName, picked } = user;
+                return { id, agentCode, username, firstName, lastName, picked };
             }
 
             function isAuthenticated() {

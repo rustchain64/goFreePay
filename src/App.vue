@@ -1,109 +1,51 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
-
-import BarChart from "./components/charts/BarChart";
-import { Nav, Alert } from '@/components';
+import { Agent_Nav, Alert } from '@/components';
 import { useAuthStore } from '@/stores';
 
 const authStore = useAuthStore();
 </script>
 
 <template>
-  <header>
+  
     <div class="wrapper">
       <!-- <HelloWorld msg="You did it!" /> -->
-      <nav>
+      <nav v-show="authStore.user" class="navbar navbar-expand navbar-light bg-light">
         <img
           alt="GoFree logo"
           class="logo"
-          src="@/assets/go_free.png"
-          width="125"
-          height="125"
+          src="@/assets/pie_logo.jpg"
+          height="80"
         />
-        <RouterLink to="/" class="navbar-brand">Dashboard</RouterLink>
-        <RouterLink to="/list" class="nav-link">Referrals</RouterLink>
-        <RouterLink to="/referral">Referral</RouterLink>
-        <RouterLink to="/add">Add</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <!-- <RouterLink to="/login">Sign in</RouterLink>
-        <RouterLink to="/signup">Sign up</RouterLink> -->
+        <div class="navbar-nav">
+            <RouterLink to="/agentDashboard" class="nav-item nav-link">Dashboard</RouterLink>
+            <RouterLink to="/referrals" class="nav-link">Referrals</RouterLink>
+            <RouterLink to="/users" class="nav-item nav-link" >Users</RouterLink>
+            <!-- <RouterLink to="/" class="navbar-brand">Dashboard</RouterLink> -->
+            <!-- <RouterLink to="/list" class="nav-link">Referrals</RouterLink> -->
+            <RouterLink to="/referral" class="nav-item nav-link">Referral</RouterLink>
+            <RouterLink to="/add" class="nav-item nav-link">Add</RouterLink>
+            <!-- <RouterLink to="/about">About</RouterLink> -->
+            <RouterLink to="/login" class="nav-item nav-link">Sign in</RouterLink>
+            <RouterLink to="/signup" class="nav-item nav-link">Sign up</RouterLink>
+    
+            <button @click="authStore.logout()" class="btn btn-link nav-item nav-link">Logout</button>
+        </div>
+      </nav>
+        
         <div class="app-container" :class="authStore.user && 'bg-light'">
-          <Nav />
-          <Alert />
           <div class="container pt-4 pb-4">
               <router-view />
           </div>
+          <!-- <Agent_Nav /> -->
       </div>
-      </nav>
-      <div>
-        <BarChart />
-      </div>
+     
     </div>
-  </header>
-  <RouterView />
+ 
+  
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
+@import '@/assets/base.css';
+@import '@/assets/main.css';
 </style>
+

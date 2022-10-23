@@ -1,9 +1,9 @@
 <template>
-  <!-- TutorialDataService methods:
+  <!-- DataService methods:
         get()
         update()
         delete()
-        <div v-if="currentTutorial" class="edit-form">
+        <div v-if="currentReferral" class="edit-form">
  -->
   <div  class="card m-3">
     <h4 class="card-header">Update and Edit Referral</h4>
@@ -11,13 +11,20 @@
       <div class="list row">
         <div class="col-md-8">
     <form>
-      <div class="form-group">
+      <div class="form-group" id="flex_row">
         <label for="title">Your Name</label>
         <input
           type="text"
           class="form-control"
-          id="title"
-          v-model="currentTutorial.yourName"
+          id="yourName"
+          v-model="currentReferral.yourName"
+        />
+        <label for="title">Agent Code</label>
+        <input
+          type="text"
+          class="form-control"
+          id="yourName"
+          v-model="currentReferral.agentCode"
         />
       </div>
       <div class="form-group">
@@ -25,26 +32,62 @@
         <input
           type="text"
           class="form-control"
-          id="title"
-          v-model="currentTutorial.referralsName"
+          id="referralName"
+          v-model="currentReferral.referralsName"
         />
       </div>
       <div class="form-group">
-        <label for="title">Phone</label>
+        <label for="phone">Phone</label>
         <input
           type="text"
           class="form-control"
-          id="title"
-          v-model="currentTutorial.phone"
+          id="phone"
+          v-model="currentReferral.phone"
         />
       </div>
       <div class="form-group">
-        <label for="title">Email</label>
+        <label for="email">Email</label>
         <input
           type="text"
           class="form-control"
-          id="title"
-          v-model="currentTutorial.email"
+          id="email"
+          v-model="currentReferral.email"
+        />
+      </div>
+      <div class="form-group">
+        <label for="ss">SS #</label>
+        <input
+          type="text"
+          class="form-control"
+          id="ss#"
+          v-model="currentReferral.phone"
+        />
+      </div>
+      <div class="form-group">
+        <label for="bankName">Bank Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="bankName"
+          v-model="currentReferral.bankName"
+        />
+      </div>
+      <div class="form-group">
+        <label for="routingNumber">Routing Number</label>
+        <input
+          type="text"
+          class="form-control"
+          id="routingNumber"
+          v-model="currentReferral.routingNumber"
+        />
+      </div>
+      <div class="form-group">
+        <label for="accountNumber">Account Number</label>
+        <input
+          type="text"
+          class="form-control"
+          id="accountNumber"
+          v-model="currentReferral.accountNumber"
         />
       </div>
       <div class="form-group">
@@ -53,7 +96,7 @@
           type="text"
           class="form-control"
           id="title"
-          v-model="currentTutorial.title"
+          v-model="currentReferral.title"
         />
       </div>
       <div class="form-group">
@@ -62,13 +105,13 @@
           type="text"
           class="form-control"
           id="description"
-          v-model="currentTutorial.description"
+          v-model="currentReferral.description"
         />
       </div>
 
       <div class="form-group">
         <label><strong>Status:</strong></label>
-        {{ currentTutorial.published ? "Published" : "Pending" }}
+        {{ currentReferral.published ? "Published" : "Pending" }}
       </div>
     </form>
   </div>
@@ -78,7 +121,7 @@
   
     <!-- <button
       class="badge badge-primary mr-2"
-      v-if="currentTutorial.published"
+      v-if="currentReferral.published"
       @click="updatePublished(false)"
     >
       UnPublish
@@ -93,7 +136,7 @@
 
     <button
       class="badge badge-primary mr-2"
-      v-if="currentTutorial.published"
+      v-if="currentReferral.published"
       @click="updatePublished(false)"
     >
       Is Active
@@ -126,7 +169,7 @@ export default {
   name: "referral",
   data() {
     return {
-      currentTutorial: "",
+      currentReferral: "",
       message: "",
     };
   },
@@ -134,7 +177,7 @@ export default {
     getTutorial(id) {
       TutorialDataService.get(id)
         .then((response) => {
-          this.currentTutorial = response.data;
+          this.currentReferral = response.data;
           console.log(response.data);
         })
         .catch((e) => {
@@ -144,16 +187,16 @@ export default {
 
     updatePublished(status) {
       var data = {
-        id: this.currentTutorial.id,
-        title: this.currentTutorial.title,
-        description: this.currentTutorial.description,
+        id: this.currentReferral.id,
+        title: this.currentReferral.title,
+        description: this.currentReferral.description,
         published: status,
       };
 
-      TutorialDataService.update(this.currentTutorial.id, data)
+      TutorialDataService.update(this.currentReferral.id, data)
         .then((response) => {
           console.log(response.data);
-          this.currentTutorial.published = status;
+          this.currentReferral.published = status;
           this.message = "The status was updated successfully!";
         })
         .catch((e) => {
@@ -162,7 +205,7 @@ export default {
     },
 
     updateTutorial() {
-      TutorialDataService.update(this.currentTutorial.id, this.currentTutorial)
+      TutorialDataService.update(this.currentReferral.id, this.currentReferral)
         .then((response) => {
           console.log(response.data);
           this.message = "The tutorial was updated successfully!";
@@ -173,7 +216,7 @@ export default {
     },
 
     deleteTutorial() {
-      TutorialDataService.delete(this.currentTutorial.id)
+      TutorialDataService.delete(this.currentReferral.id)
         .then((response) => {
           console.log(response.data);
           this.$router.push({ name: "tutorials" });
@@ -194,5 +237,9 @@ export default {
 .edit-form {
   max-width: 300px;
   margin: auto;
+}
+
+#flex_row {
+  display: flex;
 }
 </style>

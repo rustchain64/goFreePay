@@ -18,6 +18,11 @@ async function onSubmit(values) {
 
 <template>
     <div class="card m-3">
+        <img
+          alt="GoFree logo"
+          class="logo"
+          src="@/assets/pie_logo.jpg"
+        />
         <h4 class="card-header">Login</h4>
         <div class="card-body">
             <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">

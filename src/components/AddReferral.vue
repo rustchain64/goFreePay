@@ -1,7 +1,7 @@
 <template>
   <div class="card m-3">
     <span class="card-header">
-        <strong class="who">Add Referral: Who would you like to refer?</strong>
+        <strong class="who">Who would you like to refer?</strong>
       <span class="flex-header">
         <label for="agentsCode" >Enter Agents Code</label>
           <input
@@ -19,7 +19,7 @@
     <div class="card-body">
       <!-- <div class="submit-form"> -->
         <div v-if="!submitted">
-          <div class="form-group">
+          <div class="form-group" id="flex_row">
             <label for="yourName">Your Name</label>
             <input
               type="text"
@@ -27,6 +27,15 @@
               id="yourName"
               required
               v-model="referral.yourName"
+              name="yourName"
+            />
+            <label for="agentsCode">Agent Code</label>
+            <input
+              type="text"
+              class="form-control"
+              id="agentsCode"
+              required
+              v-model="referral.agentsCode"
               name="yourName"
             />
           </div>
@@ -182,5 +191,9 @@ export default {
 
 .who {
   font-size: 1.3rem;
+}
+
+#flex_row {
+  display: flex;
 }
 </style>
