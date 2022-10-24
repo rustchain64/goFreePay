@@ -165,7 +165,7 @@ export default {
       //   console.log('login is false')
       // }
       if(!this.user){
-        console.log('THERE IS NO USER: ', this.user)
+        console.log('THERE IS NO USER,Z')
       } 
       if(this.login==true) {
         console.log('THERE IS A SUER .LOGIN');
