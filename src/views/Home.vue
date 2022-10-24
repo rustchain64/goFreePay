@@ -12,8 +12,6 @@ const { user } = storeToRefs(authStore);
 </script>
 
 <template>
-        <!-- <button @click="registerMerchant" class="btn btn-success">Register Merchant</button> -->
-
     <div v-if="user">
     <!-- A FULL LIST OF THE USER OBJECT -->
       <!-- <div>get user.personal : {{user}}</div> -->
@@ -41,28 +39,20 @@ const { user } = storeToRefs(authStore);
 </template>
 
 <script>
-   // import DataService from "../services/DataService";
     
 export default {
-  name: "add-tutorial",
+  name: "home",
   data() {
     return {
-      agent: false,
-      tutorial: {
-        id: null,
-        title: "",
-        description: "",
-        published: false,
-      },
+      agent: false,      
       submitted: false,
     };
   },
   methods: {
-    registerMerchant() {
-      console.log("register Merchant");
-     // router.push('/register');
+    adminDashboard() {
+      console.log("dashboard Admin");
+      router.push(this.returnUrl || '/merchantDashboard');
     },
-
     merchantDashboard() {
       console.log("dashboard Merchant");
       router.push(this.returnUrl || '/merchantDashboard');
@@ -96,11 +86,9 @@ export default {
     margin-right: 25px;
     background: url(@/assets/dash_button.png) 3px 5px no-repeat;    
   }
-
   .agent_list {
     float:right;
   }
-
   .agent_register {
     float: left;
   }

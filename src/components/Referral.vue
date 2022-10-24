@@ -6,7 +6,7 @@
         <div v-if="currentReferral" class="edit-form">
  -->
   <div  class="card m-3">
-    <h4 class="card-header">Update and Edit Referral</h4>
+    <h4 class="card-header">Merchant Registration</h4>
     <div class="card-body">
       <div class="list row">
         <div class="col-md-8">

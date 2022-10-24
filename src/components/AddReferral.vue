@@ -1,3 +1,13 @@
+
+<script setup>
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores';
+import { router } from '@/router';
+
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
+</script>
+
 <template>
   <div class="card m-3">
     <span class="card-header">
@@ -83,7 +93,7 @@
               class="form-control"
               id="title"
               required
-              v-model="tutorial.title"
+              v-model="referral.title"
               name="title"
             />
           </div>
@@ -94,19 +104,22 @@
               class="form-control"
               id="description"
               required
-              v-model="tutorial.description"
+              v-model="referral.description"
               name="description"
             />
           </div>
-
-          <button @click="saveReferral" class="btn btn-success">Refer Now</button>
+          <!-- need a button swap, IF LOGIN THEN SHOW REFER -->
+          <div class="refer_login">
+            <button @click="redirect_to_login" class="btn btn-success spread">Login</button>
+            <button @click="saveReferral" class="btn btn-success">Refer Now</button>          
+          </div>
         </div>
 
         <div v-else>
           <h4>You submitted successfully!</h4>
-          <!-- <h4>{{this.referral.yourName}}Thanks!</h4> -->
+          <h4>{{this.referral.yourName}}Thanks!</h4>
           <!-- need to call for Agents name from table with agents code -->
-          <!-- <h4>{{this.referral.referralsName}}Will be contacted by Your Agent: {{this.referral.agentsName}}!</h4> -->
+          <h4>{{this.referral.referralsName}}Will be contacted by Your Agent: {{this.referral.agentsName}}!</h4>
           <button class="btn btn-success" @click="newReferral">Add Another Referral</button>
         </div>
       <!-- </div> -->
@@ -121,12 +134,8 @@ export default {
   name: "add-tutorial",
   data() {
     return {
-      tutorial: {
-        id: null,
-        title: "",
-        description: "",
-        published: false,
-      },
+      login: false,
+      refer_now_disabled: true,
       referral: {
         id: null,
         yourName: "",
@@ -141,7 +150,26 @@ export default {
     };
   },
   methods: {
+    redirect_to_login() {
+      console.log("redirect to login before refer now");
+      router.push(this.returnUrl || '/account/login');      
+      this.login = true;
+      
+    },
+
     saveReferral() {
+      if(this.user){
+        console.log('THERE IS A USER. login ', this.user)
+      }
+      // if(this.login==false){
+      //   console.log('login is false')
+      // }
+      if(!this.user){
+        console.log('THERE IS NO USER: ', this.user)
+      } 
+      if(this.login==true) {
+        console.log('THERE IS A SUER .LOGIN');
+      console.log("After login, SAVE REFERRAL ", this.authStore.user);
       var data = {
         yourName: this.referral.yourName,
         referralsName: this.referral.referralsName,
@@ -149,13 +177,13 @@ export default {
         agentsCode: this.referral.agentsCode,
         phone: this.referral.phone,
         email: this.referral.email,
-        title: this.tutorial.title,
-        description: this.tutorial.description,
+        title: this.referral.title,
+        description: this.referral.description,
       };
 
       DataService.create(data)
         .then((response) => {
-          this.tutorial.id = response.data.id;
+         // this.tutorial.id = response.data.id;
           this.referral.id = response.data.id;
           console.log(response.data);
           this.submitted = true;
@@ -163,8 +191,11 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+      } else {
+        console.log("STOP YOU NEED TO LOGIN FIRST");
+      }
     },
-
+    
     newReferral() {
       this.submitted = false;
       this.tutorial = {};
@@ -195,5 +226,15 @@ export default {
 
 #flex_row {
   display: flex;
+}
+
+.refer_login {
+  display: flex;
+  margin-right: 20px;
+  width: 200px;
+  margin: auto;
+}
+.spread {
+  margin-right: 20px;;
 }
 </style>

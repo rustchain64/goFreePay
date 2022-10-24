@@ -14,11 +14,11 @@ const { user } = storeToRefs(authStore);
     <div v-if="user">
       <h2>Merchant Dashboard: {{user.firstName}} </h2>
       <div>
-        <div class="pie">
+        <div class="pie" id="pie_left">
           <h2>Referrals by Status</h2>
           <PieChart />
         </div>
-        <div class="line">
+        <div class="line" id="line_right">
           <h2>Referrals Rewards</h2>
           <LineChart />
         </div>
@@ -48,3 +48,13 @@ const { user } = storeToRefs(authStore);
       </div>
     </div>
 </template>
+
+<style scoped>
+#pie_left {
+  float: left;
+}
+
+#line_right {
+  float: right;
+}
+</style>
