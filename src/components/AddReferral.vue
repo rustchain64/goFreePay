@@ -51,6 +51,13 @@ async function onSubmit(values) {
     } catch (error) {
         alertStore.error(error);
     }
+    redirect_to_login();
+}
+
+async function redirect_to_login() {
+      console.log("redirect to login before refer now");
+      router.push('/account/login');
+      await referralStore.loggedIn(true);
 }
 </script>
 
@@ -76,14 +83,24 @@ async function onSubmit(values) {
             </div>
             <div class="form-row">
                 <div class="form-group col">
+                    <label>Agent Name</label>
+                    <Field name="agentName" type="text" class="form-control" :class="{ 'is-invalid': errors.firstName }" />
+                    <div class="invalid-feedback">{{ errors.firstName }}</div>
+                </div>
+                <div class="form-group col">
+                    <label>Agent Code</label>
+                    <Field name="lastName" type="text" class="form-control" :class="{ 'is-invalid': errors.lastName }" />
+                    <div class="invalid-feedback">{{ errors.lastName }}</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
                     <label>Phone</label>
                     <Field name="phone" type="text" class="form-control" :class="{ 'is-invalid': errors.phone }" />
                     <div class="invalid-feedback">{{ errors.phone }}</div>
                 </div>
                 <div class="form-group col">
-                    <label>
-                        Email
-                    </label>
+                    <label>Email</label>
                     <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" />
                     <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
@@ -101,17 +118,16 @@ async function onSubmit(values) {
           </div>
             <div class="form-group">
               <div class="refer_login">
-                <button class="btn btn-primary" :disabled="isSubmitting">
+                <button class="btn btn-success" id="spread-right" :disabled="isSubmitting">
                     <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-                    Save
+                    Login
                 </button>
                 
-                <button @click="redirect_to_login" class="btn btn-success spread">Login</button>
-                <button @click="saveReferral" class="btn btn-success">Refer Now</button>          
+                <!-- <button @click="redirect_to_login" class="btn btn-success spread">Login</button> -->
+                <button @click="saveReferral" class="btn btn-success" id="spread-left" v-if="referralStore.loggedIn">Refer Now</button>          
               </div>
                 <!-- <router-link to="/referral" class="btn btn-link">Cancel</router-link> -->
             </div>
-            <div>TEST {{referrel}}</div>
         </Form>
     </template>
     </div>
@@ -135,12 +151,12 @@ export default {
     picked: ''
   }),
   methods: {
-		redirect_to_login() {
-      console.log("redirect to login before refer now");
-      router.push(this.returnUrl || '/account/login');      
-      this.login = true;
+		// redirect_to_login() {
+    //   console.log("redirect to login before refer now");
+    //   router.push(this.returnUrl || '/account/login');      
+    //   this.login = true;
       
-    },
+    // },
     saveReferral() {
       if(useAuthStore.user){
         console.log('THERE IS A USER. login ', authStore.user)
@@ -192,4 +208,11 @@ export default {
   .code_disabled {
     color: silver;
   }
+
+#spread-right {
+  margin-right: 10px;
+}
+#spread-left {
+  margin-right: 10px;
+}
 </style>

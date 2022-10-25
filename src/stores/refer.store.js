@@ -9,10 +9,14 @@ export const useReferStore = defineStore({
     id: 'users',
     state: () => ({
         users: {},
+        loggedIn: false,
     }),
   actions: {
-    async register(refferal) {
-        
+    async loggedIn(loggedIn) {        
+        console.log("REGISTER REFERRAL:: ",loggedIn);
+        this.loggedIn = loggedIn;
+    },
+    async register(refferal) {        
         console.log("REGISTER REFERRAL:: ",refferal);
         //await fetchWrapper.post(`${baseUrl}/register`, user);
         this.users = {...refferal};
