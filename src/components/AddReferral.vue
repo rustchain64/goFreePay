@@ -6,17 +6,22 @@ import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores';
 import { useReferStore, useAlertStore } from '@/stores';
 import { router } from '@/router';
+import { reactive } from "vue";
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 
 const referralStore = useReferStore();
+const { refferal } = storeToRefs(referralStore);
+
 const alertStore = useAlertStore();
 const route = useRoute();
 const id = route.params.id;
+const terms = reactive({});
 
 let title = 'Add Referral';
 let referral = null;
+let isDisabled = true;
 if (id) {
     // edit mode
     title = 'Edit User';
@@ -54,10 +59,11 @@ async function onSubmit(values) {
     redirect_to_login();
 }
 
-async function redirect_to_login() {
-      console.log("redirect to login before refer now");
-      router.push('/account/login');
-      await referralStore.loggedIn(true);
+function redirect_to_login() {
+    //this.terms = false;
+    router.push('/account/login');
+    
+    referralStore.success(true);
 }
 </script>
 
@@ -118,13 +124,17 @@ async function redirect_to_login() {
           </div>
             <div class="form-group">
               <div class="refer_login">
+                <div v-if="referralStore.loggedIn==null">
                 <button class="btn btn-success" id="spread-right" :disabled="isSubmitting">
                     <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
                     Login
                 </button>
-                
+                </div>
+                <div v-if="referralStore.loggedIn!==null">
+                  <!-- {{referralStore.loggedIn.message}} -->
                 <!-- <button @click="redirect_to_login" class="btn btn-success spread">Login</button> -->
-                <button @click="saveReferral" class="btn btn-success" id="spread-left" v-if="referralStore.loggedIn">Refer Now</button>          
+                <button @click="saveReferral" class="btn btn-success" id="spread-left" >Refer Now</button>          
+              </div>
               </div>
                 <!-- <router-link to="/referral" class="btn btn-link">Cancel</router-link> -->
             </div>
@@ -148,15 +158,12 @@ async function redirect_to_login() {
 export default {
   name: "add-referral",
   data: () => ({
-    picked: ''
+    terms: false
   }),
-  methods: {
-		// redirect_to_login() {
-    //   console.log("redirect to login before refer now");
-    //   router.push(this.returnUrl || '/account/login');      
-    //   this.login = true;
-      
-    // },
+  methods: { 
+    isDisabled: function(){
+    	return !this.terms;
+    },
     saveReferral() {
       if(useAuthStore.user){
         console.log('THERE IS A USER. login ', authStore.user)

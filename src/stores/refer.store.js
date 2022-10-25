@@ -6,18 +6,17 @@ const baseUrl = `${import.meta.env.VITE_API_URL}/referrals`;
 
 
 export const useReferStore = defineStore({
-    id: 'users',
+    id: 'referrals',
     state: () => ({
         users: {},
-        loggedIn: false,
+        loggedIn: null,
     }),
   actions: {
-    async loggedIn(loggedIn) {        
-        console.log("REGISTER REFERRAL:: ",loggedIn);
-        this.loggedIn = loggedIn;
+    success(message) {
+        this.loggedIn = { message, type: 'alert-success' };
     },
     async register(refferal) {        
-        console.log("REGISTER REFERRAL:: ",refferal);
+        console.log(">>>>>> REGISTER REFERRAL:: ",refferal);
         //await fetchWrapper.post(`${baseUrl}/register`, user);
         this.users = {...refferal};
         console.log("REGISTER this.users,", this.users);
@@ -37,15 +36,7 @@ export const useReferStore = defineStore({
             // update auth user in pinia state
             authStore.user = user;
         }
-    },
-    deleteTodo(itemID) {
-    console.log("DELETE AN ITEM,", itemID);
-    console.log("DELETE this.todoList,", this.todoList);
-    this.todoList = this.todoList.filter((object) => {
-        
-        return object.id !== itemID;
-        });
-    },
+    }
   },
 })
 
