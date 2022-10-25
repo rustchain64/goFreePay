@@ -1,175 +1,159 @@
-
 <script setup>
+import { Form, Field } from 'vee-validate';
+import * as Yup from 'yup';
+import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores';
+import { useReferStore, useAlertStore } from '@/stores';
 import { router } from '@/router';
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
+
+const referralStore = useReferStore();
+const alertStore = useAlertStore();
+const route = useRoute();
+const id = route.params.id;
+
+let title = 'Add Referral';
+let referral = null;
+if (id) {
+    // edit mode
+    title = 'Edit User';
+    ({ referral } = storeToRefs(referralStore));
+    referralStore.getById(id);
+}
+
+const schema = Yup.object().shape({
+    agentCode: Yup.string(),
+    firstName: Yup.string()
+        .required('First Name is required'),
+    lastName: Yup.string()
+        .required('Last Name is required'),
+    phone: Yup.string()
+        .required('Username is required'),
+    email: Yup.string()
+        .required('Username is required'),
+});
+
+async function onSubmit(values) {
+    try {
+        let message;
+        if (referral) {
+            await referralStore.update(referral.value.id, values)
+            message = 'User updated';
+        } else {
+            await referralStore.register(values);
+            message = 'User added';
+        }
+        //await router.push('/referrals');
+        alertStore.success(message);
+    } catch (error) {
+        alertStore.error(error);
+    }
+}
 </script>
 
 <template>
-  <div class="card m-3">
-    <span class="card-header">
-        <strong class="who">Who would you like to refer?</strong>
-      <span class="flex-header">
-        <label for="agentsCode" >Enter Agents Code</label>
-          <input
-            type="text"          
-            id="agentsCode"          
-            placeholder="CCI0276"
-            required
-            v-model="referral.agentsCode"
-            name="agentsCode"
-          />
-      </span>
-        
-      
-    </span>
+    <div  class="card m-3">
+        <h2 class="card-header"><h2>{{title}}</h2></h2>
+    
     <div class="card-body">
-      <!-- <div class="submit-form"> -->
-        <div v-if="!submitted">
-          <div class="form-group" id="flex_row">
-            <label for="yourName">Your Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="yourName"
-              required
-              v-model="referral.yourName"
-              name="yourName"
-            />
-            <label for="agentsCode">Agent Code</label>
-            <input
-              type="text"
-              class="form-control"
-              id="agentsCode"
-              required
-              v-model="referral.agentsCode"
-              name="yourName"
-            />
-          </div>
+    
+    <template v-if="!(referral?.loading || referral?.error)">
+        <Form @submit="onSubmit" :validation-schema="schema" :initial-values="referralStore.users" v-slot="{ errors, isSubmitting }">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>First Name</label>
+                    <Field name="firstName" type="text" class="form-control" :class="{ 'is-invalid': errors.firstName }" />
+                    <div class="invalid-feedback">{{ errors.firstName }}</div>
+                </div>
+                <div class="form-group col">
+                    <label>Last Name</label>
+                    <Field name="lastName" type="text" class="form-control" :class="{ 'is-invalid': errors.lastName }" />
+                    <div class="invalid-feedback">{{ errors.lastName }}</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>Phone</label>
+                    <Field name="phone" type="text" class="form-control" :class="{ 'is-invalid': errors.phone }" />
+                    <div class="invalid-feedback">{{ errors.phone }}</div>
+                </div>
+                <div class="form-group col">
+                    <label>
+                        Email
+                    </label>
+                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" />
+                    <div class="invalid-feedback">{{ errors.email }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+            <label for="title">Notes</label>
+            <Field name="title" type="text" class="form-control" :class="{ 'is-invalid': errors.title }" />
 
-          <div class="form-group">
-            <label for="referralsName">Referrals Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="referralsName"
-              required
-              v-model="referral.referralsName"
-              name="referralsName"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input
-              type="text"
-              class="form-control"
-              id="phone"
-              required
-              v-model="referral.phone"
-              name="phone"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input
-              type="text"
-              class="form-control"
-              id="email"
-              required
-              v-model="referral.email"
-              name="email"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="title">Title</label>
-            <input
-              type="text"
-              class="form-control"
-              id="title"
-              required
-              v-model="referral.title"
-              name="title"
-            />
           </div>
 
           <div class="form-group">
             <label for="description">Description</label>
-            <input
-              class="form-control"
-              id="description"
-              required
-              v-model="referral.description"
-              name="description"
-            />
-          </div>
-          <!-- need a button swap, IF LOGIN THEN SHOW REFER -->
-          <div class="refer_login">
-            <button @click="redirect_to_login" class="btn btn-success spread">Login</button>
-            <button @click="saveReferral" class="btn btn-success">Refer Now</button>          
-          </div>
-        </div>
+            <Field name="description" type="text" class="form-control" :class="{ 'is-invalid': errors.description }" />
 
-        <div v-else>
-          <h4>You submitted successfully!</h4>
-          <h4>{{this.referral.yourName}}Thanks!</h4>
-          <!-- need to call for Agents name from table with agents code -->
-          <h4>{{this.referral.referralsName}}Will be contacted by Your Agent: {{this.referral.agentsName}}!</h4>
-          <button class="btn btn-success" @click="newReferral">Add Another Referral</button>
-        </div>
-      <!-- </div> -->
+          </div>
+            <div class="form-group">
+              <div class="refer_login">
+                <button class="btn btn-primary" :disabled="isSubmitting">
+                    <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
+                    Save
+                </button>
+                
+                <button @click="redirect_to_login" class="btn btn-success spread">Login</button>
+                <button @click="saveReferral" class="btn btn-success">Refer Now</button>          
+              </div>
+                <!-- <router-link to="/referral" class="btn btn-link">Cancel</router-link> -->
+            </div>
+            <div>TEST {{referrel}}</div>
+        </Form>
+    </template>
     </div>
-  </div>
+    </div>
+    <template v-if="referral?.loading">
+        <div class="text-center m-5">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+        </div>
+    </template>
+    <template v-if="referral?.error">
+        <div class="text-center m-5">
+            <div class="text-danger">Error loading referral: {{referral.error}}</div>
+        </div>
+    </template>
 </template>
 
-<script>
-import DataService from "../services/DataService";
-
+<script>    
 export default {
-  name: "add-tutorial",
-  data() {
-    return {
-      login: false,
-      refer_now_disabled: true,
-      referral: {
-        id: null,
-        yourName: "",
-        referralsName: "",
-        agentsName: "",
-        agentsCode: "",        
-        phone: "",
-        email: "",
-        published: false,
-      },
-      submitted: false,
-    };
-  },
+  name: "add-referral",
+  data: () => ({
+    picked: ''
+  }),
   methods: {
-    redirect_to_login() {
+		redirect_to_login() {
       console.log("redirect to login before refer now");
       router.push(this.returnUrl || '/account/login');      
       this.login = true;
       
     },
-
     saveReferral() {
-      if(this.user){
-        console.log('THERE IS A USER. login ', this.user)
+      if(useAuthStore.user){
+        console.log('THERE IS A USER. login ', authStore.user)
       }
       // if(this.login==false){
       //   console.log('login is false')
       // }
-      if(!this.user){
+      if(!useAuthStore.user){
         console.log('THERE IS NO USER,Z')
       } 
       if(this.login==true) {
         console.log('THERE IS A SUER .LOGIN');
-      console.log("After login, SAVE REFERRAL ", this.authStore.user);
+      //console.log("After login, SAVE REFERRAL ", this.authStore.user);
       var data = {
         yourName: this.referral.yourName,
         referralsName: this.referral.referralsName,
@@ -195,46 +179,17 @@ export default {
         console.log("STOP YOU NEED TO LOGIN FIRST");
       }
     },
-    
-    newReferral() {
-      this.submitted = false;
-      this.tutorial = {};
-      this.referral = {};
-    },
-  },
+  }, 
 };
 </script>
 
-<style>
-.submit-form {
-  max-width: 300px;
-  margin: auto;
-}
+<style scoped>
+.persona_label {
+    margin-right: 5%;
+    margin-left: 1%;
+  }
 
-.flex-header {
-  float:right;
-  flex-direction: row;
-}
-.flex-header,label {
-  font-weight: bold;
-  margin-right: 15px;
-}
-
-.who {
-  font-size: 1.3rem;
-}
-
-#flex_row {
-  display: flex;
-}
-
-.refer_login {
-  display: flex;
-  margin-right: 20px;
-  width: 200px;
-  margin: auto;
-}
-.spread {
-  margin-right: 20px;;
-}
+  .code_disabled {
+    color: silver;
+  }
 </style>

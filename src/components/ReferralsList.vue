@@ -39,11 +39,7 @@
           >
             {{ tutorial.referralsName }}
           </li>
-        </ul>
-
-        <button class="m-3 btn btn-sm btn-danger" @click="removeAllTutorials">
-          Remove All
-        </button>
+        </ul>        
       </div>
       <div class="col-md-6">
         <div v-if="currentTutorial">
