@@ -14,29 +14,13 @@ export const useReferStore = defineStore({
   actions: {
     success(message) {
         this.loggedIn = { message, type: 'alert-success' };
+        console.log("REGISTER LOGGED IN STATUS,", message);
     },
-    async register(refferal) {        
-        console.log(">>>>>> REGISTER REFERRAL:: ",refferal);
-        //await fetchWrapper.post(`${baseUrl}/register`, user);
+    register(refferal) {        
         this.users = {...refferal};
-        console.log("REGISTER this.users,", this.users);
+        console.log("REGISTER BACK UP DATA,", this.users);
         //localStorage.setItem('referralAttributes', JSON.stringify(refferal));
-    },
-    // async update(id, params) {
-    //     console.log("UPDATE REFERRAL:: ",refferal);
-    //     await fetchWrapper.put(`${baseUrl}/${id}`, params);
-
-    //     // update stored user if the logged in user updated their own record
-    //     const authStore = useAuthStore();
-    //     if (id === authStore.user.id) {
-    //         // update local storage
-    //         const user = { ...authStore.user, ...params };
-    //         localStorage.setItem('user', JSON.stringify(user));
-
-    //         // update auth user in pinia state
-    //         authStore.user = user;
-    //     }
-    // }
+    }
   },
 })
 
