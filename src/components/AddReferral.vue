@@ -72,7 +72,7 @@ function redirect_to_login() {
         <h2 class="card-header"><h2>{{title}}</h2></h2>
     
     <div class="card-body">
-    
+    <div v-if="!submitted">
     <template v-if="!(referral?.loading || referral?.error)">
         <Form @submit="onSubmit" :validation-schema="schema" :initial-values="referralStore.users" v-slot="{ errors, isSubmitting }">
             <div class="form-row">
@@ -130,16 +130,25 @@ function redirect_to_login() {
                     Login
                 </button>
                 </div>
-                <div v-if="referralStore.loggedIn!==null">
-                  <!-- {{referralStore.loggedIn.message}} -->
+                <div v-if="referralStore.loggedIn!==null">{{referralStore.loggedIn}}Show me</div>
                 <!-- <button @click="redirect_to_login" class="btn btn-success spread">Login</button> -->
                 <button @click="saveReferral" class="btn btn-success" id="spread-left" >Refer Now</button>          
-              </div>
+                
               </div>
                 <!-- <router-link to="/referral" class="btn btn-link">Cancel</router-link> -->
             </div>
         </Form>
     </template>
+    </div>
+    <div v-else>
+      <h4>You submitted successfully!</h4>
+      <!-- <h4>{{this.referral.yourName}}Thanks!</h4> -->
+      <!-- need to call for Agents name from table with agents code -->
+      <!-- <h4>{{this.referral.referralsName}}Will be contacted by Your Agent: {{this.referral.agentsName}}!</h4> -->
+      <button class="btn btn-success" @click="newReferral">Add Another Referral</button>
+    </div>
+
+
     </div>
     </div>
     <template v-if="referral?.loading">
@@ -155,6 +164,8 @@ function redirect_to_login() {
 </template>
 
 <script>    
+import DataService from "../services/DataService";
+
 export default {
   name: "add-referral",
   data: () => ({
@@ -171,11 +182,11 @@ export default {
       // if(this.login==false){
       //   console.log('login is false')
       // }
-      if(!useAuthStore.user){
-        console.log('THERE IS NO USER,Z')
-      } 
-      if(this.login==true) {
-        console.log('THERE IS A SUER .LOGIN');
+      // if(!useAuthStore.user){
+      //   console.log('THERE IS NO USER,Z')
+      // } 
+      // if(this.login==true) {
+      //   console.log('THERE IS A SUER .LOGIN');
       //console.log("After login, SAVE REFERRAL ", this.authStore.user);
       var data = {
         yourName: this.referral.yourName,
@@ -198,9 +209,9 @@ export default {
         .catch((e) => {
           console.log(e);
         });
-      } else {
-        console.log("STOP YOU NEED TO LOGIN FIRST");
-      }
+      // } else {
+      //   console.log("STOP YOU NEED TO LOGIN FIRST");
+      // }
     },
   }, 
 };
