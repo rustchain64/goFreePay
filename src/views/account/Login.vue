@@ -21,7 +21,7 @@ async function onSubmit(values) {
         <img
           alt="GoFree logo"
           class="logo"
-          src="@/assets/pie_logo.jpg"
+          src="@/assets/images/pie_io_clr_slgn_white.jpg"
         />
         <h4 class="card-header">Login</h4>
         <div class="card-body">

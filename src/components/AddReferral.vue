@@ -26,32 +26,16 @@ if (id) {
 }
 const schema = Yup.object().shape({
     agentCode: Yup.string(),
-    firstName: Yup.string()
+    yourName: Yup.string()
         .required('First Name is required'),
-    lastName: Yup.string()
+    refferlName: Yup.string()
         .required('Last Name is required'),
-    phone: Yup.string()
+    title: Yup.string()
         .required('Username is required'),
-    email: Yup.string()
+    description: Yup.string()
         .required('Username is required'),
 });
-async function onSubmit(values) {
-    try {
-        let message;
-        if (referral) {
-            await referralStore.update(referral.value.id, values)
-            message = 'User updated';
-        } else {
-            await referralStore.register(values);
-            message = 'User added';
-        }
-        //await router.push('/referrals');
-        alertStore.success(message);
-    } catch (error) {
-        alertStore.error(error);
-    }
-    redirect_to_login();
-}
+
 
 </script>
 
@@ -60,47 +44,40 @@ async function onSubmit(values) {
         <h2 class="card-header">{{title}}</h2>
   <div class="submit-form">
     <div v-if="!submitted">
-      <div class="form-group">
-        <label for="yourName">Your Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="yourName"
-          required
-          v-model="tutorial.yourName"
-          name="yourName"
-        />
-      </div>
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          required
-          v-model="tutorial.title"
-          name="title"
-        />
-      </div>
+      <Form @submit="onSubmit" :validation-schema="schema" :initial-values="this.referralStore.users" v-slot="{ errors, isSubmitting }">
+        <div class="form-row">
+            <div class="form-group col">
+                <label>Your Name</label>
+                <Field name="yourName" type="text" v-model="tutorial.yourName" class="form-control" :class="{ 'is-invalid': errors.yourName }" />
+                <div class="invalid-feedback">{{ errors.yourName }}</div>
+            </div>
+            <div class="form-group col">
+                <label>Referral Name</label>
+                <Field name="referralName" type="text" v-model="tutorial.referralName" class="form-control" :class="{ 'is-invalid': errors.referralName }" />
+                <div class="invalid-feedback">{{ errors.referralName }}</div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label>Title</label>
+                <Field name="title" type="text" v-model="tutorial.title" class="form-control" :class="{ 'is-invalid': errors.title }" />
+                <div class="invalid-feedback">{{ errors.title }}</div>
+            </div>
+            <div class="form-group col">
+                <label>Description</label>
+                <Field name="description" type="text" v-model="tutorial.description" class="form-control" :class="{ 'is-invalid': errors.description }" />
+                <div class="invalid-feedback">{{ errors.description }}</div>
+            </div>
+        </div>
 
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input
-          class="form-control"
-          id="description"
-          required
-          v-model="tutorial.description"
-          name="description"
-        />
-      </div>
-
-      <div v-if="referralStore.loggedIn==null">
-        <button @click="redirect_to_login" class="btn btn-success">Login</button>
-      </div>
-      
-      <div v-if="referralStore.loggedIn!==null">
-        <button @click="saveTutorial" class="btn btn-success">Refer Now</button>
-      </div>
+        <div v-if="referralStore.loggedIn==null">
+          <button @click="redirect_to_login" class="btn btn-success">Login</button>
+        </div>
+        
+        <div v-if="referralStore.loggedIn!==null">
+          <button @click="saveTutorial" class="btn btn-success">Refer Now</button>
+        </div>
+      </Form>
       
     </div>
 
@@ -122,6 +99,7 @@ export default {
       tutorial: {
         id: null,
         yourName: "",
+        referralName: "",
         title: "",
         description: "",
         published: false
@@ -129,9 +107,13 @@ export default {
       submitted: false
     };
   },
+  mounted() {
+    let formValues = this.referralStore.users
+    console.log("FORMS VALUES formValues : ", formValues);
+  },
   methods: {
     redirect_to_login(event) {
-      console.log("COMMIT FORM VALUES TO STORE : ",event.target.value);
+      console.log("COMMIT FORM VALUES TO STORE v-model : ",this.tutorial);
       //force a login in order to Submit Referral
       router.push('/account/login');
       // set loggedIn state
@@ -140,18 +122,17 @@ export default {
       this.alertStore.success(message);
       this.referralStore.success(true);
       // commit form data
-      this.referralStore.register(event);
+      this.referralStore.register(this.tutorial);
 
     },
-    saveTutorial(values) {         
-          
-
+    saveTutorial(values) {
       var data = {
-        yourName: this.tutorial.yourName,
-        title: this.tutorial.title,
-        description: this.tutorial.description
+        yourName: this.referralStore.users.yourName,
+        referralName: this.referralStore.users.referralName,
+        title: this.referralStore.users.title,
+        description: this.referralStore.users.description
       };
-
+      // call the create function POST with data
       DataService.create(data)
         .then(response => {
           this.tutorial.id = response.data.id;
@@ -166,6 +147,7 @@ export default {
     newTutorial() {
       this.submitted = false;
       this.tutorial = {};
+      this.referralStore.clear();
     }
   }
 };

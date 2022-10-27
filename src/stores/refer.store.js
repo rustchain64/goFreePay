@@ -20,6 +20,11 @@ export const useReferStore = defineStore({
         this.users = {...refferal};
         console.log("REGISTER BACK UP DATA,", this.users);
         //localStorage.setItem('referralAttributes', JSON.stringify(refferal));
+    },
+    clear() {        
+        //this.users = {};
+        console.log("CLEARING OUT FORM VALUES,", this.users);
+        //localStorage.setItem('referralAttributes', JSON.stringify(refferal));
     }
   },
 })
