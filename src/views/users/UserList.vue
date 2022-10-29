@@ -10,10 +10,11 @@ usersStore.getAll();
 </script>
 
 <template>
-    <div class="user-bar">
+    <div class="card m-3">
+    <div class="card-header">
         <div class="user-label"><h1>Users List</h1></div>
         <div class="add-user-button">
-            <router-link to="/users/add" class="btn btn-sm " >Add User</router-link>
+            <router-link to="/users/add" class="btn btn-lg" >Add User</router-link>
         </div>
         
     </div>
@@ -57,6 +58,7 @@ usersStore.getAll();
             </tr>            
         </tbody>
     </table>
+</div>
 </template>
 
 <style scoped>

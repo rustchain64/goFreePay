@@ -15,7 +15,7 @@ const authStore = useAuthStore();
         <img
           alt="GoFree logo"
           class="logo"
-          src="@/assets/images/pie_io_clr_slgn_white.jpg"          
+          src="@/assets/images/.jpg"          
           height="80"
         />
         

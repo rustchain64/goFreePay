@@ -16,7 +16,7 @@ const { user } = storeToRefs(authStore);
     <!-- A FULL LIST OF THE USER OBJECT -->
       <!-- <div>get user.persona : {{user.persona}}</div> -->
       <div>
-        <span class="welcome-text">{{user.persona}} : {{user.firstName}} </span>
+        <!-- <span class="welcome-text">{{user.persona}} : {{user.firstName}} </span> -->
         <span v-if="user.picked == 'Admin'"><button @click="adminDashboard" class="btn btn-success" id="dash-button">Admin Dashboard</button></span>
         <span v-if="user.picked == 'Merchant'"><button @click="merchantDashboard" class="btn btn-success" id="dash-button">Merchant Dashboard</button></span>
         <span v-if="user.picked == 'Agent'"><button @click="agentDashboard" class="btn btn-success" id="dash-button">Agent Dashboard</button></span>

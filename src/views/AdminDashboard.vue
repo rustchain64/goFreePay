@@ -13,10 +13,10 @@ const { user } = storeToRefs(authStore);
 
 <template>
     <div v-if="user">
-    <h2>Admin Dashboard: {{user.firstName}} </h2>
+    <h2 class="card-header">Admin Dashboard: {{user.firstName}} </h2>
     <div>
       <div class="pie">
-        <h2>Referrals by Status</h2>
+        <!-- <h2>Referrals by Status</h2> -->
         <UserList />
       </div>
       <!-- <div class="line">
