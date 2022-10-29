@@ -10,12 +10,11 @@ const authStore = useAuthStore();
 
 <template>
     <div class="wrapper">
-      <!-- <HelloWorld msg="You did it!" /> -->
       <nav v-show="authStore.user" class="navbar navbar-expand navbar-light bg-light">
         <img
-          alt="GoFree logo"
+          alt="Go Free logo"
           class="logo"
-          src="@/assets/image/pie_io_clr_slgn_white.jpg"
+          src="@/assets/images/transparent/pie_io_clr_slgn_trns.png"
           height="80"
         />
         <div class="navbar-nav">

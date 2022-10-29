@@ -2,9 +2,9 @@
 import { storeToRefs } from 'pinia';
 
 import { useAuthStore } from '@/stores';
-import TheWelcome from "../components/TheWelcome.vue";
 import PieChart from "../components/charts/PieChart";
 import LineChart from "../components/charts/LineChart.vue";
+import UserList from "@/views/users/UserList.vue";
 
 
 const authStore = useAuthStore();
@@ -13,18 +13,18 @@ const { user } = storeToRefs(authStore);
 
 <template>
     <div v-if="user">
-    <h2>Agent Dashboard: {{user.firstName}} </h2>
+    <h2>Admin Dashboard: {{user.firstName}} </h2>
     <div>
       <div class="pie">
         <h2>Referrals by Status</h2>
-        <PieChart />
+        <UserList />
       </div>
-      <div class="line">
+      <!-- <div class="line">
         <h2>Referrals Rewards</h2>
         <LineChart />
-      </div>
+      </div> -->
       <div class="line">
-        <h2>Referrals Details</h2>
+        <!-- <h2>Referrals Details</h2>
         <div>
             <div class="card-header" id="details_header">
                 <span class="spread">Merchant Name</span>
@@ -44,7 +44,7 @@ const { user } = storeToRefs(authStore);
                 <span class="spread">bleen.kong@gmail.com</span>
                 <span class="spread">completed</span>
             </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- <main>    

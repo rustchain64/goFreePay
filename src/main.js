@@ -7,10 +7,6 @@ import { router } from './router';
 //import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-//setup fake backend
-import { fakeBackend } from './helpers';
-fakeBackend();
-
 const app = createApp(App);
 
 app.use(createPinia());

@@ -6,6 +6,8 @@ import { useUsersStore, useAlertStore } from '@/stores';
 import { router } from '@/router';
 
 const schema = Yup.object().shape({
+    persona: Yup.string(),
+    agentCode: Yup.string(),
     firstName: Yup.string()
         .required('First Name is required'),
     lastName: Yup.string()
@@ -32,9 +34,19 @@ async function onSubmit(values) {
 
 <template>
     <div class="card m-3">
-        <h4 class="card-header">Register</h4>
+        <h4 class="card-header">Register NOT</h4>
         <div class="card-body">
             <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+                <div class="form-group col">
+                    <label>Persona</label>
+                    <Field name="persona" type="text" class="form-control" :class="{ 'is-invalid': errors.persona }" />
+                    <div class="invalid-feedback">{{ errors.persona }}</div>
+                </div>
+                <div class="form-group col">
+                    <label>Agent Code</label>
+                    <Field name="agentCode" type="text" class="form-control" :class="{ 'is-invalid': errors.agentCode }" />
+                    <div class="invalid-feedback">{{ errors.agentCode }}</div>
+                </div>
                 <div class="form-group">
                     <label>First Name</label>
                     <Field name="firstName" type="text" class="form-control" :class="{ 'is-invalid': errors.firstName }" />
@@ -66,24 +78,3 @@ async function onSubmit(values) {
         </div>
     </div>
 </template>
-
-<script>    
-export default {
-  name: "add-user",
-  data: () => ({
-    picked: ''
-  }),
-  methods: {
-		setPicked(event) {
-        this.picked = event.target.value;
-    	console.log(event.target.value)
-    }
-  },
- 
-};
-</script>
-
-<style scoped>.persona_label {
-    margin-right: 10%;
-  }
-</style>

@@ -4,6 +4,7 @@ import { Home } from '@/views';
 import accountRoutes from './account.routes';
 import usersRoutes from './users.routes';
 import referralsRoutes from './referrals.routes';
+import AdminDashboard from '../views/MerchantDashboard.vue';
 import MerchantDashboard from '../views/MerchantDashboard.vue';
 import AgentDashboard from '../views/AgentDashboard.vue';
 import ListView from '../views/referrals/ListView.vue';
@@ -17,6 +18,7 @@ export const router = createRouter({
         { ...usersRoutes },
         { ...referralsRoutes },
         { path: '/referrals', component: ListView },
+        { path: '/adminDashboard', component: AdminDashboard },
         { path: '/merchantDashboard', component: MerchantDashboard },
         { path: '/agentDashboard', component: AgentDashboard },
         // catch all redirect to home page

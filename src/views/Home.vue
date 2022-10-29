@@ -1,9 +1,9 @@
 <script setup>
 import { storeToRefs } from 'pinia';
-
 import { useAuthStore } from '@/stores';
 import ReferralsList from "./referrals/ListView.vue";
 import AddReferralView from './referrals/AddReferralView.vue';
+import AdminDashboardVue from './AdminDashboard.vue';
 import { router } from '@/router';
 
 const authStore = useAuthStore();
@@ -14,24 +14,25 @@ const { user } = storeToRefs(authStore);
 <template>
     <div v-if="user">
     <!-- A FULL LIST OF THE USER OBJECT -->
-      <!-- <div>get user.personal : {{user}}</div> -->
+      <!-- <div>get user.persona : {{user.persona}}</div> -->
       <div>
-        <span class="welcome-text">{{user.picked}} : {{user.firstName}} </span>
-        <span v-if="user.picked == 'Admin'"><button @click="merchantDashboard" class="btn btn-success" id="dash-button">Admin Dashboard</button></span>
+        <span class="welcome-text">{{user.persona}} : {{user.firstName}} </span>
+        <span v-if="user.picked == 'Admin'"><button @click="adminDashboard" class="btn btn-success" id="dash-button">Admin Dashboard</button></span>
         <span v-if="user.picked == 'Merchant'"><button @click="merchantDashboard" class="btn btn-success" id="dash-button">Merchant Dashboard</button></span>
         <span v-if="user.picked == 'Agent'"><button @click="agentDashboard" class="btn btn-success" id="dash-button">Agent Dashboard</button></span>
       </div>
       <!-- SELECT A VIEW ACCORDING TO USER PERSONA  -->
       <!-- <ReferralsList /> -->
-      <div v-if="user.picked == 'Merchant'">        
+      <div v-if="user.persona == 'merchant'">        
         <AddReferralView />        
       </div> 
-      <div v-if="user.picked == 'Agent'">
+      <div v-if="user.persona == 'agent'">
         <ReferralsList />
         <!-- <div class="agent_list"><ReferralsList /></div> -->
         <!-- <div class="agent_register"><ReferralsList /></div> -->
       </div>
-      <div v-if="user.picked == 'Admin'">
+      <div v-if="user.persona == 'admin'">
+        <AdminDashboardVue />
         <div class="agent_list"><ReferralsList /></div>
         <!-- <div class="agent_register"><RegisterMerchant /></div> -->
       </div>  
@@ -51,7 +52,7 @@ export default {
   methods: {
     adminDashboard() {
       console.log("dashboard Admin");
-      router.push(this.returnUrl || '/merchantDashboard');
+      router.push(this.returnUrl || '/adminDashboard');
     },
     merchantDashboard() {
       console.log("dashboard Merchant");

@@ -31,7 +31,7 @@ usersStore.getAll();
         <tbody>
             <template v-if="users.length" v-for="user in users" :key="user.id">
                 <tr>
-                    <td>{{ user.picked }}</td>
+                    <td>{{ user.persona }}</td>
                     <td>{{ user.agentCode }}</td>
                     <td>{{ user.firstName }}</td>
                     <td>{{ user.lastName }}</td>
