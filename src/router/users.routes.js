@@ -6,6 +6,6 @@ export default {
     children: [
         { path: '', component: UserList },
         { path: 'add', component: AddEdit },
-        { path: 'edit/:id', component: UserList } // do not chante this ( breaks everything )
+        { path: 'edit/:id', component: AddEdit } // do not chante this ( breaks everything )
     ]
 };

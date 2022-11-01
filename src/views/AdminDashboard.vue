@@ -1,11 +1,7 @@
 <script setup>
 import { storeToRefs } from 'pinia';
-
 import { useAuthStore } from '@/stores';
-import PieChart from "../components/charts/PieChart";
-import LineChart from "../components/charts/LineChart.vue";
-import UserList from "@/views/users/UserList.vue";
-
+import LandingPage from '../components/LandingPage.vue';
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
@@ -13,42 +9,9 @@ const { user } = storeToRefs(authStore);
 
 <template>
     <div v-if="user">
-    <h2 class="card-header">Admin Dashboard: {{user.firstName}} </h2>
-    <div>
-      <div class="pie">
-        <!-- <h2>Referrals by Status</h2> -->
-        <UserList />
+      <h2 class="card-header">Admin Dashboard: {{user.firstName}} </h2>
+      <div>
+          <LandingPage />      
       </div>
-      <!-- <div class="line">
-        <h2>Referrals Rewards</h2>
-        <LineChart />
-      </div> -->
-      <div class="line">
-        <!-- <h2>Referrals Details</h2>
-        <div>
-            <div class="card-header" id="details_header">
-                <span class="spread">Merchant Name</span>
-                <span class="spread">Representative</span>
-                <span class="spread">Email</span>
-                <span class="spread">Status</span>
-            </div>
-            <div  class="card-body" id="details_content">
-                <span class="spread">Kit Carson</span>
-                <span class="spread">John@Bill</span>
-                <span class="spread">billy.bob@gmail.com</span>
-                <span class="spread">pending</span>
-            </div>
-            <div  class="card-body" id="details_content">
-                <span class="spread">Briton Paris</span>
-                <span class="spread">John@Bill</span>
-                <span class="spread">bleen.kong@gmail.com</span>
-                <span class="spread">completed</span>
-            </div>
-        </div> -->
-      </div>
-    </div>
-    <!-- <main>    
-        <TheWelcome />
-    </main> -->
     </div>
 </template>

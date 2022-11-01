@@ -68,6 +68,7 @@ usersStore.getAll();
     
     .user-label {
         float: left;
+        height: 3vh;
     }
     .add-user-button {
         float: right;

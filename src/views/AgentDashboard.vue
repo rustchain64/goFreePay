@@ -14,14 +14,14 @@ const { user } = storeToRefs(authStore);
     <div v-if="user">
     <h2>Agent Dashboard: {{user.firstName}} </h2>
     <div>
-      <div class="pie">
-        <h2>Referrals by Status</h2>
-        <PieChart />
-      </div>
-      <div class="line">
-        <h2>Referrals Rewards</h2>
-        <LineChart />
-      </div>
+      <div class="pie" id="pie_left">
+          <h2>Referrals by Status</h2>
+          <PieChart />
+        </div>
+        <div class="line" id="line_right">
+          <h2>Referrals Rewards</h2>
+          <LineChart />
+        </div>
       <div class="line">
         <h2>Referrals Details</h2>
         <div>
@@ -53,3 +53,13 @@ const { user } = storeToRefs(authStore);
     <p><router-link to="/users">Manage Users</router-link></p> -->
     </div>
 </template>
+
+<style scoped>
+#pie_left {
+  float: left;
+}
+
+#line_right {
+  float: right;
+}
+</style>

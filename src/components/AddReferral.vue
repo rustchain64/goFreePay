@@ -15,7 +15,7 @@ const alertStore = useAlertStore();
 const route = useRoute();
 const id = route.params.id;
 const terms = reactive({});
-let title = 'Add Referral';
+let title = 'Add Referral HELLO';
 let referral = null;
 let isDisabled = true;
 if (id) {
@@ -55,6 +55,18 @@ const schema = Yup.object().shape({
                 <label>Referral Name</label>
                 <Field name="referralName" type="text" v-model="tutorial.referralName" class="form-control" :class="{ 'is-invalid': errors.referralName }" />
                 <div class="invalid-feedback">{{ errors.referralName }}</div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label>Agent Name</label>
+                <Field name="agentName" type="text" v-model="tutorial.agentName" class="form-control" :class="{ 'is-invalid': errors.agentName }" />
+                <div class="invalid-feedback">{{ errors.agentName }}</div>
+            </div>
+            <div class="form-group col">
+                <label>Agent Code</label>
+                <Field name="agentCode" type="text" v-model="tutorial.agentCode" class="form-control" :class="{ 'is-invalid': errors.agentCode }" />
+                <div class="invalid-feedback">{{ errors.agentCode }}</div>
             </div>
         </div>
         <div class="form-row">
@@ -100,6 +112,8 @@ export default {
         id: null,
         yourName: "",
         referralName: "",
+        agentName: "",
+        agentCode: "",
         title: "",
         description: "",
         published: false
@@ -129,6 +143,9 @@ export default {
       var data = {
         yourName: this.referralStore.users.yourName,
         referralName: this.referralStore.users.referralName,
+        referralName: this.referralStore.users.referralName,
+        agentName: this.referralStore.users.agentName,
+        agentCode: this.referralStore.users.agentCode,
         title: this.referralStore.users.title,
         description: this.referralStore.users.description
       };

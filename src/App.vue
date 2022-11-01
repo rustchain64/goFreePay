@@ -10,14 +10,17 @@ const authStore = useAuthStore();
 
 <template>
     <div class="wrapper">
-      <nav v-show="authStore.user" class="navbar navbar-expand navbar-light bg-light">
+      <div v-show="authStore.user" class="nav_wrapper">
         <img
           alt="Go Free logo"
-          class="logo"
+          class="nav_logo"
           src="@/assets/images/transparent/pie_io_clr_slgn_trns.png"
           height="80"
         />
-        <div class="navbar-nav">
+        
+        <!-- <div class="navbar-nav"> -->
+            <div class="nav_links">
+            
             <RouterLink to="/agentDashboard" class="nav-item nav-link">Dashboard</RouterLink>
             <RouterLink to="/referrals" class="nav-link">Referrals</RouterLink>
             <RouterLink to="/users" class="nav-item nav-link">Users</RouterLink>
@@ -28,10 +31,21 @@ const authStore = useAuthStore();
             <!-- <RouterLink to="/about">About</RouterLink> -->
             <!-- <RouterLink to="/login" class="nav-item nav-link">Sign in</RouterLink>
             <RouterLink to="/signup" class="nav-item nav-link">Sign up</RouterLink> -->
-    
-            <button @click="authStore.logout()" class="btn btn-link nav-item nav-link">Logout</button>
+            </div>
+            
+        <!-- </div> -->
+
+        <div class="logout_button">
+          <button @click="authStore.logout()" class="btn btn-link nav-item nav-link">
+            <img
+              alt="Log Out"
+              class="nav_logo"
+              src="@/assets/images/logOut.png"
+              height="30"
+            />
+          </button>
         </div>
-      </nav>
+      </div>
         
         <div class="app-container" :class="authStore.user && 'bg-light'">
           <div class="container pt-4 pb-4">
@@ -48,5 +62,23 @@ const authStore = useAuthStore();
 <style scoped>
 @import '@/assets/base.css';
 @import '@/assets/main.css';
+
+.nav_wrapper {
+  height: 10vh;
+}
+
+.nav_logo {
+  float:left;
+}
+.nav_links {
+  display: flex;
+  flex-direction: row;
+  float:left;
+}
+
+.logout_button {
+  float:right;
+  vertical-align: top;
+}
 </style>
 

@@ -5,7 +5,7 @@
        findByTitle()
   -->
   <div class="card m-3">
-  <h4 class="card-header">Manage Referrals</h4>
+  <h4 class="card-header">Manage Referrals ( Update referral's info to Complete Registration )</h4>
   <div class="card-body">
     <div class="list row">
       <div class="col-md-8">
@@ -37,44 +37,55 @@
             :key="index"
             @click="setActiveReferral(tutorial, index)"
           >
-            {{ tutorial.referralsName }}
+            {{ tutorial.yourName }}
+            <!-- {{ tutorial.agentName }} -->
+            {{ tutorial.agentCode }}
+            {{ tutorial.phone }}
           </li>
         </ul>        
       </div>
       <div class="col-md-6">
-        <div v-if="currentTutorial">
-          <h4>Referral ???</h4>
+        <div v-if="currentReferral">
+          <h4>Referral ??</h4>
           <div>
             <label><strong>Merchant Name:</strong></label>
-            {{ currentTutorial.yourName }}
+            {{ currentReferral.yourName }}
           </div>
           <div>
             <label><strong>Referral Name:</strong></label>
-            {{ currentTutorial.referralsName }}
+            {{ currentReferral.referralName }}
+          </div>
+          <div>
+            <label><strong>Agent Name:</strong></label>
+            {{ currentReferral.agentName }}
+          </div>
+          <div>
+            <label><strong>Agent Code:</strong></label>
+            {{ currentReferral.agentCode }}
           </div>
           <div>
             <label><strong>Phone:</strong></label>
-            {{ currentTutorial.phone }}
+            {{ currentReferral.phone }}
           </div>
           <div>
             <label><strong>Email:</strong></label>
-            {{ currentTutorial.email }}
+            {{ currentReferral.email }}
           </div>
           <div>
-            <label><strong>Title or Code:</strong></label>
-            {{ currentTutorial.title }}
+            <label><strong>Title:</strong></label>
+            {{ currentReferral.title }}
           </div>
           <div>
             <label><strong>Notes:</strong></label>
-            {{ currentTutorial.description }}
+            {{ currentReferral.description }}
           </div>
           <div>
             <label><strong>Status:</strong></label>
-            {{ currentTutorial.published ? "Published" : "Pending" }}
+            {{ currentReferral.published ? "Published" : "Pending" }}
           </div>
           
           <router-link
-            :to="{ name: 'Referral', params: { id: currentTutorial.id }}"
+            :to="{ name: 'Referral', params: { id: currentReferral.id }}"
             class="badge badge-primary"
             >
             Edit
@@ -95,11 +106,11 @@
 import DataService from "../services/DataService";
 
 export default {
-  name: "tutorials-list",
+  name: "referral-list",
   data() {
     return {
       tutorials: [],
-      currentTutorial: null,
+      currentReferral: null,
       currentIndex: -1,
       title: "",
     };
@@ -118,12 +129,12 @@ export default {
 
     refreshList() {
       this.retrieveTutorials();
-      this.currentTutorial = null;
+      this.currentReferral = null;
       this.currentIndex = -1;
     },
 
     setActiveReferral(tutorial, index) {
-      this.currentTutorial = tutorial;
+      this.currentReferral = tutorial;
       this.currentIndex = tutorial ? index : -1;
     },
 

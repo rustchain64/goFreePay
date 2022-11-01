@@ -75,9 +75,14 @@ async function onSubmit(values) {
                     <Field name="persona" type="text" v-model="picked" class="form-control" :class="{ 'is-invalid': errors.persona }" />
                     <div class="invalid-feedback">{{ errors.persona }}</div>
                 </div>
-                <div class="form-group col">
+                <!-- <div class="form-group col">
                     <label>Agent Code</label>
                     <Field name="agentCode" type="text" v-if="this.picked=='agent'" value="test" class="form-control" :class="{ 'is-invalid': errors.agentCode }" />
+                    <div class="invalid-feedback">{{ errors.agentCode }}</div>
+                </div> -->
+                <div class="form-group col">
+                    <label>Agent Code</label>
+                    <Field name="agentCode" type="text" value="test" class="form-control" :class="{ 'is-invalid': errors.agentCode }" />
                     <div class="invalid-feedback">{{ errors.agentCode }}</div>
                 </div>
             </div>
