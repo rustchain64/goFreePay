@@ -18,6 +18,8 @@
     "jquery": "^3.6.1",
     "pinia": "^2.0.21",
     "popper.js": "^1.16.1",
+    "referral-codes": "2.0.3",
+    "referral-code-generator": "1.0.8",
     "vee-validate": "^4.5.11",
     "vue": "^3.2.38",
     "vue-chart-3": "^3.1.8",

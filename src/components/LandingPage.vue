@@ -176,7 +176,8 @@ export default {
   background-color: whitesmoke;
 }
 .left_menu button {
-  margin-bottom: 15%;
+  margin-bottom: 30%;  
+  border: none;
 }
 .content {
   max-width: 90vw;
@@ -184,7 +185,7 @@ export default {
 
 .export_pdf {
   width: 3vw;
-  height: 7vh;
+  height: 4vh;
 }
 
 .charting {

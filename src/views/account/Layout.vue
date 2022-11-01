@@ -1,5 +1,4 @@
-// <script setup>
-// import { useAuthStore } from '@/stores';
+<!--// import { useAuthStore } from '@/stores';
 // import { router } from '@/router';
 
 // // redirect home if already logged in
@@ -7,7 +6,7 @@
 // if (authStore.user) {
 //     router.push('/');
 // }
-// </script>
+// </script> -->
 
 <template>
     <div class="container">

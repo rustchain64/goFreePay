@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { fetchWrapper } from '@/helpers';
 import { useAuthStore } from '@/stores';
+import referralCodeGenerator from 'referral-code-generator'
 
 //const baseUrl = `${import.meta.env.VITE_API_URL}/referrals`;
 
@@ -12,19 +13,27 @@ export const useAgentReferCodeStore = defineStore({
     }),
   actions: {
     getAgentReferralCode() {
-        return agentCodes;
+        console.log("GET AGENT CODE:: ,", this.agentCodes);
+
+        return this.agentCodes.length;
     },
     getLength() {
-        return agentCodes.length;
+        console.log("get Length,", this.agentCodes.length);
+
+        return {code: this.agentCodes};
     },
     // generate 100 codes
-    generateCodeBatch(refferal) {        
-        this.users = {...refferal};
-        console.log("REGISTER BACK UP DATA,", this.users);
+    generateReferralCode() {        
+        let newRefferalCode = referralCodeGenerator.alphaNumeric('uppercase', 5, 1);
+        console.log("CODE,", newRefferalCode);
+        this.agentCodes.push(newRefferalCode);
+        console.log("return the Generated Code,", this.agentCodes);
+        console.log("length of  agentCodes Array,", this.agentCodes.length);
+        console.log("First Code of  agentCodes Array,", this.agentCodes[0]);
     },
     clearAgentCodes() {        
         this.agentCodes = [];
-        console.log("CLEARING OUT FORM VALUES,", this.users);
+        console.log("CLEARING agentCodes,", this.agentCodes);
     }
   },
 })
