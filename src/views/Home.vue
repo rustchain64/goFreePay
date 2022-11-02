@@ -17,14 +17,15 @@ const { user } = storeToRefs(authStore);
       <!-- <div>get user.persona : {{user.persona}}</div> -->
       <!-- <div><span class="welcome-text"><h2>Welcome</h2>{{user.persona}} : {{user.firstName}} </span></div> -->
 
-      <div class="welcom_wrapper">
+     
       
         <span v-if="user.persona !== 'admin'" class="welcome-text">{{user.persona}} : {{user.firstName}} </span>
         
         <!-- <span v-if="user.persona == 'admin'"><button @click="adminDashboard" class="btn btn-success" id="dash-button">Admin Dashboard</button></span> -->
         <span v-if="user.persona == 'merchant'"><button @click="merchantDashboard" class="btn btn-success" id="dash-button">Merchant Dashboard</button></span>
         <span v-if="user.persona == 'agent'"><button @click="agentDashboard" class="btn btn-success" id="dash-button">Agent Dashboard</button></span>
-      </div>
+      <div class="main_header"></div>
+      
       <!-- SELECT A VIEW ACCORDING TO USER PERSONA upon login -->
       <!-- <ReferralsList /> -->
       <div v-if="user.persona == 'admin'">
@@ -74,7 +75,7 @@ export default {
 
 <style scoped>
 .welcom_wrapper {
-  display: flex;
+ 
   width: 100%;
 }
   .welcome-text {
@@ -84,11 +85,7 @@ export default {
     font-weight: bold;
     color: rgb(27, 164, 6);
     margin-left: 25px;
-  }
-  #welcome-person {
-    
-    float: left;
-    
+    clear: both;
   }
   #dash-button {
     color:black;

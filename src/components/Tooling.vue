@@ -13,15 +13,24 @@ const agentReferStore = useAgentReferCodeStore();
             <h2>Admin Tools : Generate Referral Codes</h2>
             <div class="tool_actions">
                 <h3>Generate Batch Code</h3>
-                <h4>{{this.title}}</h4>
-                <!-- <button @click="agentReferStore.generateReferralCode" class="btn btn-success">Generate</button> -->
-                <button @click="generateCode" class="btn btn-primary">Generate Code</button>
-                Code: {{this.agentCode}}
+                <span><button @click="deleteAll" class="btn btn-danger">Delete All Codes</button></span>
+                <span>Number of Agent Referral Codes: {{this.numberOfCodes}}</span>
+                <span><button @click="generateCode" class="btn btn-primary">Generate Code</button></span>
+                <span>Code: {{this.agentCode}}</span>
                 <span><button @click="commitAgentCode" class="btn btn-success">Commit Code</button></span>
-                <span>Commited Code: {{this.agentCode}}</span>
+                <span>Code: {{this.agnetCode}}</span>
+                <span><button @click="getAllAgentCode" class="btn btn-warning">Get All Codes</button></span>
+
+                <div>
+                    <ul>
+                        <li v-for="code in this.allAgentCodes" class="code_list">
+                            {{code.agentCode}}
+                        </li>
+                    </ul>
+                </div>
             </div>
            
-            <div>Agent Referral Code Array length</div>
+            
          
 </template>
 
@@ -34,14 +43,16 @@ export default {
     return {
         id: null,
         title: ' NO NO',
-        agnetCode: '',      
+        agnetCode: '',  
+        allAgentCodes: '',
+        numberOfCodes: 0,  
     };
   },
   methods: {
     generateCode() {
-        let newRefferalCode = referralCodeGenerator.alphaNumeric('uppercase', 5, 1);
+        let newRefferalCode = referralCodeGenerator.alphaNumeric('uppercase', 2, 1);
         console.log("TOOLING GENERATED CODE,", newRefferalCode);
-        this.agentCode = newRefferalCode;
+        this.agentCode = "AG"+newRefferalCode;
         console.log("TOOLING GENERATED CODE,", this.agentCode);
     },
     commitAgentCode(values) {
@@ -61,7 +72,30 @@ export default {
         .catch(e => {
           console.log(e);
         });
-    },    
+    },
+    getAllAgentCode() {
+        AgentCodeDataService.getAll()
+        .then((response) => {
+          this.allAgentCodes = response.data;
+          this.numberOfCodes = response.data.length;
+          //localStorage.setItem('aentReferralCodes', JSON.stringify(response.data));
+          this.agentReferStore.putAllReferralCodes(response.data); // change this to get all codes
+          let returnCodes = this.agentReferStore.agentCodes;
+          console.log("Refer Stroe Codes Return : ",returnCodes[0]);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    deleteAll() {
+        AgentCodeDataService.deleteAll()
+        .then((response) => {
+          console.log("DELETE ALL CODES length : ",response.data.length);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
   }
 };
 </script>
@@ -81,6 +115,12 @@ export default {
 .tool_actions button {
     width: 20vw;
     justify-content: center;
+}
+
+.code_list {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
 }
 </style>
 

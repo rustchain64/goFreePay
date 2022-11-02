@@ -23,17 +23,22 @@ export const useAgentReferCodeStore = defineStore({
         return {code: this.agentCodes};
     },
     // generate 100 codes
-    generateReferralCode() {        
-        let newRefferalCode = referralCodeGenerator.alphaNumeric('uppercase', 5, 1);
-        console.log("CODE,", newRefferalCode);
-        this.agentCodes.push(newRefferalCode);
-        console.log("return the Generated Code,", this.agentCodes);
-        console.log("length of  agentCodes Array,", this.agentCodes.length);
-        console.log("First Code of  agentCodes Array,", this.agentCodes[0]);
+    putAllReferralCodes(value) {        
+        //let newRefferalCode = referralCodeGenerator.alphaNumeric('uppercase', 5, 1);
+        //console.log("putAll value: ,", value);
+        this.agentCodes.push(value);
+        console.log("AGENT REFERRAL CODE STRORE");
+        console.log("length:", this.agentCodes[0].length);
+        console.log("AgentCodes Array,", this.agentCodes[0]);
     },
     clearAgentCodes() {        
         this.agentCodes = [];
         console.log("CLEARING agentCodes,", this.agentCodes);
+    },
+    deleteOneAgentCodes() {        
+        console.log("Delete Pre POP One ... length:");
+        this.agentCodes[0].pop();
+        console.log("POST One ... length:");
     }
   },
 })

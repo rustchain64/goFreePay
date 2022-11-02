@@ -3,16 +3,19 @@ import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
-
+import { useAgentReferCodeStore } from '@/stores';
 import { useUsersStore, useAlertStore } from '@/stores';
 import { router } from '@/router';
+
+const referallCodeStore = useAgentReferCodeStore();
+
 
 const usersStore = useUsersStore();
 const alertStore = useAlertStore();
 const route = useRoute();
 const id = route.params.id;
 
-let title = 'Add User NO NO';
+let title = 'Add User...';
 let user = null;
 if (id) {
     // edit mode
@@ -57,7 +60,13 @@ async function onSubmit(values) {
 </script>
 
 <template>
-    <h1>{{title}}</h1>
+    <div class="add_edit_header">
+        <h1>{{title}}</h1>
+    <button @click="fetchReferralCodes" class="btn btn-sm btn-danger">Fetch User Code</button>
+        <!-- {{referallCodeStore.agentCodes[0][this.length].agentCode}} -->
+        {{this.referCode}}
+    </div>
+    
     <template v-if="!(user?.loading || user?.error)">
         <Form @submit="onSubmit" :validation-schema="schema" :initial-values="user" v-slot="{ errors, isSubmitting }">
             <div class="form-row">
@@ -138,14 +147,42 @@ async function onSubmit(values) {
 export default {
   name: "add-user",
   data: () => ({
-    picked: ''
+    picked: '',
+    length: 0,
+    referCode: "", 
   }),
   methods: {
-		setPicked(event) {
+    setPicked(event) {
         this.picked = event.target.value;
-    	console.log(event.target.value)
+        console.log(event.target.value)
+    },
+    fetchReferralCodes() {
+        let returnCodes = this.referallCodeStore.agentCodes;
+        console.log("User List : ",returnCodes[0]);
+        let codesLength = returnCodes[0].length - 1;
+        this.length = codesLength;
+        console.log("Fetched Codes length: ",codesLength);   
+        console.log("Fetched Code : ",returnCodes[0][codesLength].agentCode);
+        this.referCode = returnCodes[0][codesLength].agentCode; 
+        this.referallCodeStore.deleteOneAgentCodes();
     }
   },
  
 };
 </script>
+
+<style scoped>
+@import '@/assets/base.css';
+@import '@/assets/main.css';
+.add_edit_header {
+    display: flex;
+    height: 6vh;
+    margin-bottom: 5%;
+}
+.add_edit_header button {
+    float:right;
+    margin-left: 50%;
+    margin-right: 1%;
+    height: 40px;
+}
+</style>

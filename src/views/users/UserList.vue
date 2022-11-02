@@ -1,20 +1,25 @@
 <script setup>
 import { storeToRefs } from 'pinia';
-
+import { useAgentReferCodeStore } from '@/stores';
 import { useUsersStore } from '@/stores';
 
+const referallCodeStore = useAgentReferCodeStore();
 const usersStore = useUsersStore();
 const { users } = storeToRefs(usersStore);
-
 usersStore.getAll();
+
+
 </script>
 
 <template>
     <div class="card m-3">
     <div class="card-header">
-        <div class="user-label"><h1>Users List</h1></div>
+        <div class="user-label"><h3>Users List</h3></div>
+        <!-- <button @click="fetchReferralCodes" class="btn btn-sm btn-danger">
+        Fetch User Code</button>
+        {{this.referCode}} -->
         <div class="add-user-button">
-            <router-link to="/users/add" class="btn btn-lg" >Add User</router-link>
+            <router-link to="/users/add" class="btn btn-sm" >Add User</router-link>
         </div>
         
     </div>
@@ -60,6 +65,33 @@ usersStore.getAll();
     </table>
 </div>
 </template>
+
+<script>
+export default {
+  // data() {
+  //   return {};
+  // },
+  name: "add-tutorial",
+  data() {
+    return {
+        id: null,
+        length: 0,
+        referCode: "",     
+    };
+  },
+  methods: {
+    fetchReferralCodes() {
+        let returnCodes = this.referallCodeStore.agentCodes;
+        console.log("User List : ",returnCodes[0]);
+        let codesLength = returnCodes[0].length - 1;
+        this.length = codesLength;
+        console.log("Fetched Codes length: ",codesLength);   
+        console.log("Fetched Code : ",returnCodes[0][codesLength].agentCode);
+        this.referCode = returnCodes[0][codesLength].agentCode; 
+    }
+  },
+};
+</script>
 
 <style scoped>
     .user-bar {

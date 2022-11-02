@@ -38,7 +38,7 @@
             @click="setActiveReferral(tutorial, index)"
           >
             {{ tutorial.yourName }}
-            <!-- {{ tutorial.agentName }} -->
+            {{ tutorial.agentName }}
             {{ tutorial.agentCode }}
             {{ tutorial.phone }}
           </li>

@@ -15,7 +15,7 @@ const alertStore = useAlertStore();
 const route = useRoute();
 const id = route.params.id;
 const terms = reactive({});
-let title = 'Add Referral HELLO';
+let title = 'Who would you like to refer?';
 let referral = null;
 let isDisabled = true;
 if (id) {
