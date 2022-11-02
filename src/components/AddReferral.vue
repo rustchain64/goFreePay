@@ -35,14 +35,16 @@ const schema = Yup.object().shape({
     description: Yup.string()
         .required('Username is required'),
 });
-
-
 </script>
 
 <template>
-   <div  class="card m-3">
-        <h2 class="card-header">{{title}}</h2>
-  <div class="submit-form">
+  <div class="bg"></div>
+  <div class="bg bg2"></div>
+  <div class="bg bg3"></div>
+  <h2 class="card-header" id="header_bg">{{title}}</h2>
+   <div id="opaque_bg">
+    
+  <div class="submit-form" id="form_bg">
     <div v-if="!submitted">
       <Form @submit="onSubmit" :validation-schema="schema" :initial-values="this.referralStore.users" v-slot="{ errors, isSubmitting }">
         <div class="form-row">
@@ -71,7 +73,19 @@ const schema = Yup.object().shape({
         </div>
         <div class="form-row">
             <div class="form-group col">
-                <label>Title</label>
+                <label>Business Name</label>
+                <Field name="agentName" type="text" v-model="tutorial.buinsessName" class="form-control" :class="{ 'is-invalid': errors.agentName }" />
+                <div class="invalid-feedback">{{ errors.agentName }}</div>
+            </div>
+            <div class="form-group col">
+                <label>Phone</label>
+                <Field name="agentCode" type="text" v-model="tutorial.phone" class="form-control" :class="{ 'is-invalid': errors.agentCode }" />
+                <div class="invalid-feedback">{{ errors.agentCode }}</div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label>Note</label>
                 <Field name="title" type="text" v-model="tutorial.title" class="form-control" :class="{ 'is-invalid': errors.title }" />
                 <div class="invalid-feedback">{{ errors.title }}</div>
             </div>
@@ -83,7 +97,7 @@ const schema = Yup.object().shape({
         </div>
 
         <div v-if="referralStore.loggedIn==null">
-          <button @click="redirect_to_login" class="btn btn-success">Login</button>
+          <button @click="redirect_to_login" class="btn btn-success" id="login_button">Login</button>
         </div>
         
         <div v-if="referralStore.loggedIn!==null">
@@ -114,6 +128,8 @@ export default {
         referralName: "",
         agentName: "",
         agentCode: "",
+        buinsessName: "",
+        phone: "",
         title: "",
         description: "",
         published: false
@@ -146,6 +162,8 @@ export default {
         referralName: this.referralStore.users.referralName,
         agentName: this.referralStore.users.agentName,
         agentCode: this.referralStore.users.agentCode,
+        buinsessName: this.referralStore.buinsessName,
+        phone: this.referralStore.phone,
         title: this.referralStore.users.title,
         description: this.referralStore.users.description
       };
@@ -174,5 +192,70 @@ export default {
 .submit-form {
   max-width: 300px;
   margin: auto;
+}
+#login_button {
+  margin-bottom: 7%;
+}
+#opaque_bg {
+  background-color: white;
+  opacity: 0.6;
+}
+#form_bg {
+  background-color: white;
+  opacity: 0.6;
+}
+#header_bg {
+  background-color: whitesmoke;
+  opacity: 0.9;
+}
+label {
+  opacity: 1.0;
+}
+.bg {
+    animation:slide 3s ease-in-out infinite alternate;
+    background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+    bottom:0;
+    left:-50%;
+    opacity:.5;
+    position:fixed;
+    right:-50%;
+    top:0;
+    z-index:-1;
+}
+ 
+.bg2 {
+    animation-direction:alternate-reverse;
+    animation-duration:2s;
+}
+ 
+.bg3 {
+    animation-duration:3s;
+}
+ 
+.content {
+    background-color:rgba(255,255,255,.8);
+    border-radius:.25em;
+    box-shadow:0 0 .25em rgba(0,0,0,.25);
+    box-sizing:border-box;
+    left:50%;
+    padding:10vmin;
+    position:fixed;
+    text-align:center;
+    top:50%;
+    transform:translate(-50%, -50%);
+}
+ 
+h1 {
+    font-family:monospace;
+}
+ 
+@keyframes slide {
+    0% {
+        transform:translateX(-25%);
+    }
+ 
+    100% {
+        transform:translateX(25%);
+    }
 }
 </style>
