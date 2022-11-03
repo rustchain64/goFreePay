@@ -177,14 +177,18 @@
       v-if="currentReferral.published"
       @click="updatePublished(false)"
     >
-      Is Active
+      <!-- Is Active
+      Is Active -->
+      Revoke
     </button>
     <button
       v-else
       class="btn btn-primary mr-2"
       @click="updatePublished(true)"
     >
-      Not Active
+      <!-- Not Active
+      Not Active -->
+      Approve
     </button>
 
     <button class="btn btn-danger mr-2" @click="deleteTutorial">
