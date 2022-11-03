@@ -101,7 +101,7 @@
           />
         </div>     
       </div>
-      <div class="form-group">
+      <div class="form-group space">
         <label for="bankName">Bank Name</label>
         <input
           type="text"
@@ -110,7 +110,7 @@
           v-model="currentReferral.bankName"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group space">
         <label for="routingNumber">Routing Number</label>
         <input
           type="text"
@@ -119,7 +119,7 @@
           v-model="currentReferral.routingNumber"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group space">
         <label for="accountNumber">Account Number</label>
         <input
           type="text"
@@ -128,7 +128,7 @@
           v-model="currentReferral.accountNumber"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group space">
         <label for="title">Note</label>
         <input
           type="text"
@@ -137,7 +137,7 @@
           v-model="currentReferral.title"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group space">
         <label for="description">Description</label>
         <input
           type="text"
@@ -173,7 +173,7 @@
     </button> -->
 
     <button
-      class="badge badge-primary mr-2"
+      class="btn btn-primary mr-2"
       v-if="currentReferral.published"
       @click="updatePublished(false)"
     >
@@ -181,17 +181,17 @@
     </button>
     <button
       v-else
-      class="badge badge-primary mr-2"
+      class="btn btn-primary mr-2"
       @click="updatePublished(true)"
     >
       Not Active
     </button>
 
-    <button class="badge badge-danger mr-2" @click="deleteTutorial">
+    <button class="btn btn-danger mr-2" @click="deleteTutorial">
       Delete
     </button>
 
-    <button type="submit" class="badge badge-success" @click="updateTutorial">
+    <button type="submit" class="btn btn-success" @click="updateTutorial">
       Update
     </button>
     <p>{{ message }}</p>
@@ -275,7 +275,7 @@ export default {
 #card-header {
   display: flex;
   justify-content: space-between;
-  background-color: whitesmoke;
+  background-color:rgba(255,255,255,.7);
 }
 #card-header h3 {
   margin-left: 2%;
