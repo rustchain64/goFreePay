@@ -5,63 +5,101 @@
         delete()
         <div v-if="currentReferral" class="edit-form">
  -->
-  <div  class="card m-3">
-    <h4 class="card-header">Merchant Registration</h4>
-    <div class="card-body">
-      <div class="list row">
-        <div class="col-md-8">
-    <form>
-      <div class="form-group" id="flex_row">
-        <label for="title">Your Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="yourName"
-          v-model="currentReferral.yourName"
-        />
-        <label for="title">Agent Code</label>
-        <input
-          type="text"
-          class="form-control"
-          id="yourName"
-          v-model="currentReferral.agentCode"
-        />
+  <div class="bg"></div>
+  <div class="bg bg2"></div>
+  <div class="bg bg3"></div>
+  <div>
+    <div  id="card-header">
+      <h3>Finish and Approve Referral as Merchant</h3>
+      <div class="form-group" id="pending-box">
+        <label><strong>Status:</strong></label>
+        {{ currentReferral.published ? "Published" : "Pending" }}
       </div>
-      <div class="form-group">
-        <label for="title">Referrals Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="referralName"
-          v-model="currentReferral.referralsName"
-        />
+    </div>
+    
+    <div class="card-body" id="card-body-bg">
+      <div class="list">
+        
+    <Form>
+      <div class="form-row" id="form_row_bg">
+        <div class="form-group space" id="form_group_bg" >
+          <label for="yourName">Your Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="yourName"
+            v-model="currentReferral.yourName"
+          />
+        </div>
+        <div class="form-group" id="form_group_bg">
+          <label for="title">Referrals Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="referralName"
+            v-model="currentReferral.referralsName"
+          />
+        </div>
       </div>
-      <div class="form-group">
-        <label for="phone">Phone</label>
-        <input
-          type="text"
-          class="form-control"
-          id="phone"
-          v-model="currentReferral.phone"
-        />
+      <div class="form-row" id="form_row_bg">
+        <div class="form-group space" id="form_group_bg">
+          <label for="agentName">Agent Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="agentName"
+            v-model="currentReferral.agentName"
+          />
+        </div>
+        <div class="form-group" id="form_group_bg">
+          <label for="agentCode">Agent Code</label>
+          <input
+            type="text"
+            class="form-control"
+            id="agentCode"
+            v-model="currentReferral.agentCode"
+          />
+        </div>
       </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="text"
-          class="form-control"
-          id="email"
-          v-model="currentReferral.email"
-        />
+      <div class="form-row" id="form_row_bg">
+        <div class="form-group space" id="form_group_bg">
+          <label for="businessName space">Business Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="businessName"
+            v-model="currentReferral.businessName"
+          />
+        </div>      
+        <div class="form-group" id="form_group_bg">
+          <label for="phone">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            id="phone"
+            v-model="currentReferral.phone"
+          />
+        </div>
       </div>
-      <div class="form-group">
-        <label for="ss">SS #</label>
-        <input
-          type="text"
-          class="form-control"
-          id="ss#"
-          v-model="currentReferral.phone"
-        />
+      <div class="form-row" >
+        <div class="form-group space" id="form_group_bg">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            v-model="currentReferral.email"
+          />
+        </div>
+        <div class="form-group" id="form_group_bg">
+          <label for="ss">SS #</label>
+          <input
+            type="text"
+            class="form-control"
+            id="ss"
+            v-model="currentReferral.ss"
+          />
+        </div>     
       </div>
       <div class="form-group">
         <label for="bankName">Bank Name</label>
@@ -91,7 +129,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="title">Title</label>
+        <label for="title">Note</label>
         <input
           type="text"
           class="form-control"
@@ -113,8 +151,8 @@
         <label><strong>Status:</strong></label>
         {{ currentReferral.published ? "Published" : "Pending" }}
       </div>
-    </form>
-  </div>
+    </Form>
+  <!-- </div> -->
   </div>
   
 
@@ -234,12 +272,60 @@ export default {
 </script>
 
 <style>
-.edit-form {
-  max-width: 300px;
-  margin: auto;
-}
-
-#flex_row {
+#card-header {
   display: flex;
+  justify-content: space-between;
+  background-color: whitesmoke;
+}
+#card-header h3 {
+  margin-left: 2%;
+  margin-top: 2%;
+}
+#pending-box {
+  margin-right: 3%;
+  margin-top: 2%;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+#card-body-bg {
+  background-color:rgba(255,255,255,.4);
+  width: 100%;
+}
+#form_row_bg {
+  width: 100%;
+}
+#form_group_bg {
+  width: 48%;
+}
+.space {
+  margin-right: 2%;
+}
+/* .edit-form {
+  max-width: 600px;
+  margin: auto;
+} */
+
+.bg {
+    animation:slide 4s ease-in-out infinite alternate;
+    background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+    bottom:0;
+    left:-50%;
+    opacity:.5;
+    position:fixed;
+    right:-50%;
+    top:0;
+    z-index:-1;
+}
+ 
+.bg2 {
+    animation-direction:alternate-reverse;
+    animation-duration:2s;
+}
+ 
+.bg3 {
+    animation-duration:4s;
 }
 </style>

@@ -64,6 +64,10 @@
             {{ currentReferral.agentCode }}
           </div>
           <div>
+            <label><strong>BusinessName:</strong></label>
+            {{ currentReferral.businessName }}
+          </div>
+          <div>
             <label><strong>Phone:</strong></label>
             {{ currentReferral.phone }}
           </div>
@@ -72,11 +76,11 @@
             {{ currentReferral.email }}
           </div>
           <div>
-            <label><strong>Title:</strong></label>
+            <label><strong>Note:</strong></label>
             {{ currentReferral.title }}
           </div>
           <div>
-            <label><strong>Notes:</strong></label>
+            <label><strong>Description:</strong></label>
             {{ currentReferral.description }}
           </div>
           <div>

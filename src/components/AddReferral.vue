@@ -41,13 +41,22 @@ const schema = Yup.object().shape({
   <div class="bg"></div>
   <div class="bg bg2"></div>
   <div class="bg bg3"></div>
-  <h2 class="card-header" id="header_bg">{{title}}</h2>
-   <div id="opaque_bg">
+  <div class="header_row">
+    <img
+      alt="Go Free logo"
+      class="nav_logo"
+      src="@/assets/images/transparent/pie_io_clr_slgn_trns.png"
+      height="60"
+    />
+    <h2 class="card-header" id="header_bg">{{title}}</h2>
+  </div>
+  
+  <div class="form_bg">
     
-  <div class="submit-form" id="form_bg">
+  <div>
     <div v-if="!submitted">
       <Form @submit="onSubmit" :validation-schema="schema" :initial-values="this.referralStore.users" v-slot="{ errors, isSubmitting }">
-        <div class="form-row">
+        <div class="form-row" id="form_row_bg">
             <div class="form-group col">
                 <label>Your Name</label>
                 <Field name="yourName" type="text" v-model="tutorial.yourName" class="form-control" :class="{ 'is-invalid': errors.yourName }" />
@@ -189,30 +198,40 @@ export default {
 </script>
 
 <style>
-.submit-form {
-  max-width: 300px;
-  margin: auto;
+.header_row {
+  display: flex;
+  background-color: whitesmoke;  
 }
+Form {
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-top: 2%;  
+}
+.form_bg {
+  background-color:rgba(255,255,255,.4);
+  border-style: solid;
+  border-width: 1px;
+  border-color:whitesmoke;
+  
+}
+label {
+  opacity: 1.0;
+  font-weight: 900;
+  font-size: larger;
+}
+
 #login_button {
-  margin-bottom: 7%;
+  margin-top: 2%;
+  margin-bottom: 5%;
 }
-#opaque_bg {
-  background-color: white;
-  opacity: 0.6;
-}
-#form_bg {
-  background-color: white;
-  opacity: 0.6;
-}
+
 #header_bg {
   background-color: whitesmoke;
   opacity: 0.9;
 }
-label {
-  opacity: 1.0;
-}
+
 .bg {
-    animation:slide 3s ease-in-out infinite alternate;
+    animation:slide 4s ease-in-out infinite alternate;
     background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
     bottom:0;
     left:-50%;
@@ -229,9 +248,9 @@ label {
 }
  
 .bg3 {
-    animation-duration:3s;
+    animation-duration:4s;
 }
- 
+/*  
 .content {
     background-color:rgba(255,255,255,.8);
     border-radius:.25em;
@@ -243,7 +262,7 @@ label {
     text-align:center;
     top:50%;
     transform:translate(-50%, -50%);
-}
+} */
  
 h1 {
     font-family:monospace;

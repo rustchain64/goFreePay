@@ -47,7 +47,9 @@ const authStore = useAuthStore();
         </div>
       </div>
         
-        <div class="app-container" :class="authStore.user && 'bg-light'">
+        <!-- <div class="app-container" :class="authStore.user && 'bg-light'"> -->
+        <div>
+          <!-- <div class="container pt-4 pb-4"> -->
           <div class="container pt-4 pb-4">
               <router-view />
           </div>
