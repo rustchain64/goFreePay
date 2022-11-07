@@ -2,6 +2,7 @@ import http from "../http-common";
 
 class AgentCodeDataService {
   getAll() {
+    console.log("Get All Codes");
     return http.get("/agentCodes");
   }
 
@@ -10,7 +11,7 @@ class AgentCodeDataService {
   }
 
   create(data) {
-   // console.log("Service DATA: ", data);
+    console.log("Service DATA: ", data);
     return http.post("/agentCodes", data);
   }
 

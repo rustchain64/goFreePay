@@ -1,14 +1,25 @@
+<script setup>
+  import { storeToRefs } from 'pinia';
+  import { useAuthStore } from '@/stores';
+  const authStore = useAuthStore();
+  const { user } = storeToRefs(authStore);
+  
+</script>
+
 <template>
   <!-- TutorialDataService methods:
        getAll()
        deleteAll()
        findByTitle()
   -->
-  <div class="card m-3">
-  <h4 class="card-header">Manage Referrals ( Update referral's info to Complete Registration )</h4>
-  <div class="card-body">
+  <div class="bg"></div>
+  <div class="bg bg2"></div>
+  <div class="bg bg3"></div>
+  <div class="card m-3" id="card-body-bg">
+  <h4 class="card-header" id="card-header">Manage Referrals ( Update referral's info to Complete Registration )</h4>
+  <div class="card-body" >
     <div class="list row">
-      <div class="col-md-8">
+      <!-- <div class="col-md-8">
         <div class="input-group mb-3">
           <input
             type="text"
@@ -26,7 +37,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="col-md-6">
         <h4>Referrals List</h4>
         <ul class="list-group">
@@ -117,10 +128,19 @@ export default {
       currentReferral: null,
       currentIndex: -1,
       title: "",
+      userData: "",
     };
+  },
+  created() {
+    let currentUser = this.user;    
+    this.userData = currentUser.agentCode;
+    this.question = currentUser.agentCode;
+    console.log("REFERRALS LIST USER AGENT CODE IS : ", this.userData);
+    //this.searchTitle();
   },
   methods: {
     retrieveTutorials() {
+      console.log("GETTING ALL TUTORIALS");
       DataService.getAll()
         .then((response) => {
           this.tutorials = response.data;
@@ -153,11 +173,11 @@ export default {
         });
     },
     searchTitle() {
-      DataService.findByTitle(this.title)
+      DataService.findByTitle(this.userData)
         .then((response) => {
           this.tutorials = response.data;
           this.setActiveReferral(null);
-          console.log("SEARCH TITLE DATA ",response.data);
+          console.log("SEARCH TITLE RESPONSE DATA:::  ",response.data);
         })
         .catch((e) => {
           console.log(e);
@@ -165,15 +185,47 @@ export default {
     },
   },
   mounted() {
-    this.retrieveTutorials();
+    //this.retrieveTutorials();
+    this.searchTitle();
   },
 };
 </script>
 
-<style>
+<style scoped>
 .list {
   text-align: left;
   max-width: 750px;
   margin: auto;
+}
+
+#card-header {
+  display: flex;
+  justify-content: space-between;
+  background-color:rgba(255,255,255,.4);
+}
+
+#card-body-bg {
+  background-color:rgba(255,255,255,.4);
+  width: 80vw;
+}
+.bg {
+    animation:slide 4s ease-in-out infinite alternate;
+    background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+    bottom:0;
+    left:-50%;
+    opacity:.5;
+    position:fixed;
+    right:-50%;
+    top:0;
+    z-index:-1;
+}
+ 
+.bg2 {
+    animation-direction:alternate-reverse;
+    animation-duration:2s;
+}
+ 
+.bg3 {
+    animation-duration:4s;
 }
 </style>

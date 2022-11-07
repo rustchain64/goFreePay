@@ -32,12 +32,12 @@
           />
         </div>
         <div class="form-group" id="form_group_bg">
-          <label for="title">Referrals Name</label>
+          <label for="referralName">Referrals Name</label>
           <input
             type="text"
             class="form-control"
             id="referralName"
-            v-model="currentReferral.referralsName"
+            v-model="currentReferral.referralName"
           />
         </div>
       </div>
@@ -204,20 +204,20 @@
 </template>
 
 <script>
-import TutorialDataService from "../services/DataService";
+import DataService from "../services/DataService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "referral",
   data() {
     return {
-      currentReferral: "",
+      currentReferral: {},
       message: "",
     };
   },
   methods: {
     getTutorial(id) {
-      TutorialDataService.get(id)
+      DataService.get(id)
         .then((response) => {
           this.currentReferral = response.data;
           console.log(response.data);
@@ -235,7 +235,7 @@ export default {
         published: status,
       };
 
-      TutorialDataService.update(this.currentReferral.id, data)
+      DataService.update(this.currentReferral.id, data)
         .then((response) => {
           console.log(response.data);
           this.currentReferral.published = status;
@@ -247,10 +247,10 @@ export default {
     },
 
     updateTutorial() {
-      TutorialDataService.update(this.currentReferral.id, this.currentReferral)
+      DataService.update(this.currentReferral.id, this.currentReferral)
         .then((response) => {
-          console.log(response.data);
-          this.message = "The tutorial was updated successfully!";
+          console.log("UPDATE RESPONSE DATA :: ", response.data);
+          this.message = "The referral was updated successfully!";
         })
         .catch((e) => {
           console.log(e);
@@ -258,7 +258,7 @@ export default {
     },
 
     deleteTutorial() {
-      TutorialDataService.delete(this.currentReferral.id)
+      DataService.delete(this.currentReferral.id)
         .then((response) => {
           console.log(response.data);
           this.$router.push({ name: "tutorials" });

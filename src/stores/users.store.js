@@ -31,6 +31,22 @@ export const useUsersStore = defineStore({
                 this.user = { error };
             }
         },
+        async getAgentCodeByName(agentName) {
+            this.user = { loading: true };
+            try {
+                this.user = await fetchWrapper.get(`${baseUrl}/${firstName}`);
+            } catch (error) {
+                this.user = { error };
+            }
+        },
+        // async getAgentNameByCode(agentCode) {
+        //     this.user = { loading: true };
+        //     try {
+        //         this.user = await fetchWrapper.get(`${baseUrl}/${agentCode}`);
+        //     } catch (error) {
+        //         this.user = { error };
+        //     }
+        // },
         async update(id, params) {
             await fetchWrapper.put(`${baseUrl}/${id}`, params);
 

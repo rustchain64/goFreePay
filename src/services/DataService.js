@@ -2,31 +2,35 @@ import http from "../http-common";
 
 class DataService {
   getAll() {
-    return http.get("/tutorials");
+    return http.get("/referrals");
   }
 
   get(id) {
-    return http.get(`/tutorials/${id}`);
+    return http.get(`/referrals/${id}`);
   }
 
   create(data) {
-    return http.post("/tutorials", data);
+    //console.log("CREATE REFERRAL DATA POST: ",data);
+    return http.post("/referrals", data);
   }
 
   update(id, data) {
-    return http.put(`/tutorials/${id}`, data);
+    console.log("UPDATE DATA SENT :: ", data);
+
+    return http.put(`/referrals/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/tutorials/${id}`);
+    return http.delete(`/referrals/${id}`);
   }
 
   deleteAll() {
-    return http.delete(`/tutorials`);
+    return http.delete(`/referrals`);
   }
 
   findByTitle(title) {
-    return http.get(`/tutorials?title=${title}`);
+    console.log("SEARCH BY TITLE::: ", title);
+    return http.get(`/referrals?title=${title}`);
   }
 
   login(id) {

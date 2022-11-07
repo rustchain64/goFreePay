@@ -21,7 +21,7 @@ const authStore = useAuthStore();
         <!-- <div class="navbar-nav"> -->
             <div class="nav_links">
             
-            <RouterLink to="/agentDashboard" class="nav-item nav-link">Dashboard</RouterLink>
+            <!-- <RouterLink to="/agentDashboard" class="nav-item nav-link">Dashboard</RouterLink> -->
             <RouterLink to="/referrals" class="nav-link">Referrals</RouterLink>
             <RouterLink to="/users" class="nav-item nav-link">Users</RouterLink>
             <!-- <RouterLink to="/" class="navbar-brand">Dashboard</RouterLink> -->

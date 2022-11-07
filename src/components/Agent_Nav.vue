@@ -13,7 +13,7 @@ const authStore = useAuthStore();
           height="80"
         />
         <div class="navbar-nav">
-            <router-link to="/agentDashboard" class="nav-item nav-link">Dashboard</router-link>
+            <!-- <router-link to="/agentDashboard" class="nav-item nav-link">Dashboard</router-link> -->
             <router-link to="/referrals" class="nav-link">Referrals</router-link>
             <router-link to="/users" class="nav-item nav-link" v-if="authStore.user.picked=='Admin'">Users</router-link>
             <button @click="authStore.logout()" class="btn btn-link nav-item nav-link">Logout</button>

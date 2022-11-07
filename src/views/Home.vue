@@ -36,7 +36,7 @@ const { user } = storeToRefs(authStore);
       </div>  
       <div v-if="user.persona == 'agent'">
       <!-- change the form from the same as merchant to the complete form -->
-        <ReferralView />
+        <!-- <ReferralView />  THis Referral View is actually the update form-->
         <ReferralsList />
         <!-- <div class="agent_list"><ReferralsList /></div> -->
         <!-- <div class="agent_register"><ReferralsList /></div> -->

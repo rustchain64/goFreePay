@@ -7,6 +7,13 @@ import { useAuthStore } from '@/stores';
 import { useReferStore, useAlertStore } from '@/stores';
 import { router } from '@/router';
 import { reactive } from "vue";
+
+import { useUsersStore } from '@/stores';
+const usersStore = useUsersStore();
+const { users } = storeToRefs(usersStore);
+//usersStore.getAll(); see the moved method
+
+
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 const referralStore = useReferStore();
@@ -76,20 +83,21 @@ const schema = Yup.object().shape({
             </div>
             <div class="form-group col">
                 <label>Agent Code</label>
-                <Field name="agentCode" type="text" v-model="tutorial.agentCode" class="form-control" :class="{ 'is-invalid': errors.agentCode }" />
+                <Field name="agentCode" type="text" v-model="tutorial.agentCode" class="form-control" id="code-width" :class="{ 'is-invalid': errors.agentCode }" />
                 <div class="invalid-feedback">{{ errors.agentCode }}</div>
             </div>
+            <button @click="getAgentCode(this.tutorial.agentName)" class="btn btn-warning" id="codeButton">Get Agent Code</button>
         </div>
         <div class="form-row">
             <div class="form-group col">
                 <label>Business Name</label>
-                <Field name="agentName" type="text" v-model="tutorial.buinsessName" class="form-control" :class="{ 'is-invalid': errors.agentName }" />
-                <div class="invalid-feedback">{{ errors.agentName }}</div>
+                <Field name="businessName" type="text" v-model="tutorial.businessName" class="form-control" :class="{ 'is-invalid': errors.businessName }" />
+                <div class="invalid-feedback">{{ errors.businessName }}</div>
             </div>
             <div class="form-group col">
                 <label>Phone</label>
-                <Field name="agentCode" type="text" v-model="tutorial.phone" class="form-control" :class="{ 'is-invalid': errors.agentCode }" />
-                <div class="invalid-feedback">{{ errors.agentCode }}</div>
+                <Field name="phone" type="text" v-model="tutorial.phone" class="form-control" :class="{ 'is-invalid': errors.phone }" />
+                <div class="invalid-feedback">{{ errors.phone }}</div>
             </div>
         </div>
         <div class="form-row">
@@ -110,7 +118,7 @@ const schema = Yup.object().shape({
         </div>
         
         <div v-if="referralStore.loggedIn!==null">
-          <button @click="saveTutorial" class="btn btn-success">Refer Now</button>
+          <button @click="saveTutorial" class="btn btn-success" id="login_button">Refer Now</button>
         </div>
       </Form>
       
@@ -118,7 +126,7 @@ const schema = Yup.object().shape({
 
     <div v-else>
       <h4>You submitted successfully!</h4>
-      <button class="btn btn-success" @click="newTutorial">Add</button>
+      <button class="btn btn-success" @click="newReferral">Add</button>
     </div>
   </div>
 </div>
@@ -126,6 +134,7 @@ const schema = Yup.object().shape({
 
 <script>
 import DataService from "../services/DataService";
+import { get, last } from 'lodash';
 
 export default {
   name: "add-tutorial",
@@ -137,7 +146,7 @@ export default {
         referralName: "",
         agentName: "",
         agentCode: "",
-        buinsessName: "",
+        businessName: "",
         phone: "",
         title: "",
         description: "",
@@ -148,7 +157,8 @@ export default {
   },
   mounted() {
     let formValues = this.referralStore.users
-    console.log("FORMS VALUES formValues : ", formValues);
+    console.log("FORMS VALUES from referralStore.users : ", formValues);
+    //this.getAgentCode("James Bond");
   },
   methods: {
     redirect_to_login(event) {
@@ -168,10 +178,9 @@ export default {
       var data = {
         yourName: this.referralStore.users.yourName,
         referralName: this.referralStore.users.referralName,
-        referralName: this.referralStore.users.referralName,
         agentName: this.referralStore.users.agentName,
         agentCode: this.referralStore.users.agentCode,
-        buinsessName: this.referralStore.buinsessName,
+        businessName: this.referralStore.businessName,
         phone: this.referralStore.phone,
         title: this.referralStore.users.title,
         description: this.referralStore.users.description
@@ -180,7 +189,7 @@ export default {
       DataService.create(data)
         .then(response => {
           this.tutorial.id = response.data.id;
-          console.log(response.data);
+          console.log("ADD REFERRAL RESPONSE DATA: ",response.data);
           this.submitted = true;
         })
         .catch(e => {
@@ -188,16 +197,53 @@ export default {
         });
     },
     
-    newTutorial() {
+    newReferral() {
       this.submitted = false;
       this.tutorial = {};
+      this.tutorial.yourName = "";
+      this.tutorial.referralName = "";
+      this.tutorial.agentName = "";
+      this.tutorial.agentCode = "";
+      this.tutorial.title = "";
+      this.tutorial.description = "";
       this.referralStore.clear();
+    },
+    getAgentCode(agentNamed) {
+      // split name
+      let nameArray = agentNamed.split(" ");
+      let firstName = nameArray[0];
+      let lastName = nameArray[0];
+      //let lastName = agentNamed.split("");
+      console.log("FIRST NAME IS: ", nameArray[0]);
+      console.log("LAST NAME IS: ", nameArray[1]);
+      console.log("FUll NAME IS: ", nameArray[0] + ""+ nameArray[1]);
+      if(this.users.length != undefined){
+        console.log("USERS LENGTH :: ", this.users.length);
+        if(this.users.length > 0){          
+          let text = "";          
+          for (let i = 0; i < this.users.length; i++) {
+            text = this.users[i].firstName;
+            console.log("FIRST NAME IS: ", text);
+            if( text == firstName) {
+              console.log("AGENT CODE FOR THIS NAME IS: ", this.users[i].agentCode);
+              this.tutorial.agentCode = this.users[i].agentCode;
+            }
+          }
+        }
+      }      
     }
   }
 };
 </script>
 
 <style>
+#codeButton {
+  height: 40px;
+  margin-top: 37px;
+}
+#code-width {
+  width: 80%;
+}
 .header_row {
   display: flex;
   background-color: whitesmoke;  
