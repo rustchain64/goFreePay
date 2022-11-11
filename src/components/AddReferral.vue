@@ -10,6 +10,7 @@ import { reactive } from "vue";
 
 import { useUsersStore } from '@/stores';
 const usersStore = useUsersStore();
+usersStore.getAll();
 const { users } = storeToRefs(usersStore);
 //usersStore.getAll(); see the moved method
 
@@ -49,12 +50,12 @@ const schema = Yup.object().shape({
   <div class="bg bg2"></div>
   <div class="bg bg3"></div>
   <div class="header_row">
-    <img
+    <!-- <img
       alt="Go Free logo"
       class="nav_logo"
       src="@/assets/images/transparent/pie_io_clr_slgn_trns.png"
       height="60"
-    />
+    /> -->
     <h2 class="card-header" id="header_bg">{{title}}</h2>
   </div>
   
@@ -126,6 +127,8 @@ const schema = Yup.object().shape({
 
     <div v-else>
       <h4>You submitted successfully!</h4>
+      <h4>Thanks {{user.firstName}}</h4>
+      <h4>Agent {{user.agentName}} will contact you shortly!</h4>
       <button class="btn btn-success" @click="newReferral">Add</button>
     </div>
   </div>
@@ -209,27 +212,32 @@ export default {
       this.referralStore.clear();
     },
     getAgentCode(agentNamed) {
-      // split name
       let nameArray = agentNamed.split(" ");
       let firstName = nameArray[0];
-      let lastName = nameArray[0];
-      //let lastName = agentNamed.split("");
-      console.log("FIRST NAME IS: ", nameArray[0]);
-      console.log("LAST NAME IS: ", nameArray[1]);
-      console.log("FUll NAME IS: ", nameArray[0] + ""+ nameArray[1]);
+      let lastName = nameArray[1];
+      // console.log("FIRST NAME IS: ", nameArray[0]);
+      // console.log("LAST NAME IS: ", nameArray[1]);
+      console.log(">>> FUll NAME IS: ", firstName + " "+ lastName);
+      
       if(this.users.length != undefined){
-        console.log("USERS LENGTH :: ", this.users.length);
+        console.log(">>> USERS LENGTH :: ", this.users.length);
         if(this.users.length > 0){          
           let text = "";          
           for (let i = 0; i < this.users.length; i++) {
             text = this.users[i].firstName;
-            console.log("FIRST NAME IS: ", text);
+           // console.log("MATCH FIRST NAME : ", firstName);
+            // console.log("AGENTS CODE ", this.users[i].agentCode);
+            
             if( text == firstName) {
+              console.log("FIRST NAME IS: ", firstName);
               console.log("AGENT CODE FOR THIS NAME IS: ", this.users[i].agentCode);
               this.tutorial.agentCode = this.users[i].agentCode;
+              //text = "";
             }
           }
         }
+      } else {
+        console.log("NO USERS LIST OBTAINED");
       }      
     }
   }

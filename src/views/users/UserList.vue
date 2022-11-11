@@ -8,13 +8,14 @@ const usersStore = useUsersStore();
 const { users } = storeToRefs(usersStore);
 usersStore.getAll();
 
-
 </script>
 
 <template>
     <div class="card m-3">
     <div class="card-header">
-        <div class="user-label"><h3>Users List</h3></div>
+        <div class="user-label">
+            <h3>Users List</h3>
+        </div>
         <!-- <button @click="fetchReferralCodes" class="btn btn-sm btn-danger">
         Fetch User Code</button>
         {{this.referCode}} -->

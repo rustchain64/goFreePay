@@ -16,7 +16,7 @@
   <div class="bg bg2"></div>
   <div class="bg bg3"></div>
   <div class="card m-3" id="card-body-bg">
-  <h4 class="card-header" id="card-header">Manage Referrals ( Update referral's info to Complete Registration )</h4>
+  <h4 class="card-header" id="card-header">Update Referral's info to Complete Registration</h4>
   <div class="card-body" >
     <div class="list row">
       <!-- <div class="col-md-8">
